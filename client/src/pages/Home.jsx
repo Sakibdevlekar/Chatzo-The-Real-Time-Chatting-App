@@ -1,9 +1,7 @@
-import React from 'react'
+import AppLayout from "../components/Layout/AppLayout";
 
 function Home() {
-  return (
-    <div>Home</div>
-  )
+  return <div>Home</div>;
 }
 
-export default Home
+export default AppLayout()(Home); // Apply the AppLayout HOC to Home component
