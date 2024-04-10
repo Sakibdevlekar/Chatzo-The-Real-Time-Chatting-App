@@ -1,19 +1,30 @@
 import { memo } from "react";
-import { Link } from "../styles/StyledComponents";
+import { Link } from "../Styles/StyledComponents";
 import { Box, Stack, Typography } from "@mui/material";
 import AvatarCard from "./AvatarCard";
-import { motion } from "framer-motion";
+// import AvatarCard from "./AvatarCard";
+// import { motion } from "framer-motion";
 
 const ChatItem = ({
+  // eslint-disable-next-line react/prop-types, no-unused-vars
   avatar = [],
+  // eslint-disable-next-line react/prop-types
   name,
+  // eslint-disable-next-line react/prop-types
   _id,
+  // eslint-disable-next-line react/prop-types
   groupChat = false,
+  // eslint-disable-next-line react/prop-types
   sameSender,
+  // eslint-disable-next-line react/prop-types
   isOnline,
+  // eslint-disable-next-line react/prop-types
   newMessageAlert,
+  // eslint-disable-next-line react/prop-types
   index = 0,
+  // eslint-disable-next-line react/prop-types
   handleDeleteChat,
+  // eslint-disable-next-line react/prop-types
 }) => {
   return (
     <Link
@@ -23,10 +34,10 @@ const ChatItem = ({
       to={`/chat/${_id}`}
       onContextMenu={(e) => handleDeleteChat(e, _id, groupChat)}
     >
-      <motion.div
-        initial={{ opacity: 0, y: "-100%" }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 * index }}
+      <div
+        // initial={{ opacity: 0, y: "-100%" }}
+        // whileInView={{ opacity: 1, y: 0 }}
+        // transition={{ delay: 0.1 * index }}
         style={{
           display: "flex",
           gap: "1rem",
@@ -37,11 +48,12 @@ const ChatItem = ({
           padding: "1rem",
         }}
       >
-        <AvatarCard avatar={avatar} />
+        <AvatarCard  avatar={avatar}/>
 
         <Stack>
           <Typography>{name}</Typography>
           {newMessageAlert && (
+            // eslint-disable-next-line react/prop-types
             <Typography>{newMessageAlert.count} New Message</Typography>
           )}
         </Stack>
@@ -60,7 +72,7 @@ const ChatItem = ({
             }}
           />
         )}
-      </motion.div>
+      </div>
     </Link>
   );
 };

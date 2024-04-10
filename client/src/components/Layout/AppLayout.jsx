@@ -4,9 +4,11 @@ import { Grid } from "@mui/material";
 import ChatList from "../specific/ChatList";
 import { sampleChats } from "../../constant/SampleData";
 import { useParams } from "react-router-dom";
+import Profile from "../specific/Profile";
 const AppLayout = () => (WrappedComponent) => {
   // eslint-disable-next-line react/display-name
   return (props) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const params = useParams();
     const chatId = params.chatId;
     const handleDeleteChat = (e, _id, groupChat) =>{
@@ -38,6 +40,8 @@ const AppLayout = () => (WrappedComponent) => {
                 },
               ]}
               onlineUsers={[1, 2]}
+              handleDeleteChat={handleDeleteChat}
+              
             />
           </Grid>
           <Grid
@@ -62,7 +66,7 @@ const AppLayout = () => (WrappedComponent) => {
             }}
             height={"100%"}
           >
-            3
+            <Profile/>
           </Grid>
         </Grid>
       </>
