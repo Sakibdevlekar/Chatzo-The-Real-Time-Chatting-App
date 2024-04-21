@@ -25,7 +25,7 @@ export const sampleUser = [
   {
     avatar: "https://www.w3schools.com/howto/img_avatar.png",
     name: "john doe",
-    _id: 1
+    _id: 1,
   },
   {
     avatar: "https://www.w3schools.com/howto/img_avatar2.png",
@@ -34,20 +34,72 @@ export const sampleUser = [
   },
 ];
 
-
 export const sampleNotification = [
   {
-    sender:{
+    sender: {
       avatar: "https://www.w3schools.com/howto/img_avatar.png",
       name: "john doe",
     },
-    _id: 1
+    _id: 1,
   },
   {
-    sender:{
+    sender: {
       avatar: "https://www.w3schools.com/howto/img_avatar2.png",
       name: "john boi",
     },
     _id: 2,
+  },
+];
+
+export const sampleMessage = [
+  {
+    attachments: [
+      {
+        public_id: "fdgcc",
+        url: "https://www.w3schools.com/howto/img_avatar2.png",
+      },
+    ],
+    content:
+      "cd   xghdhuwgsdyfcvtsyfdycvsxgvtsdcfv j bxhghdv xghdhuwgsdyfcvtsyfdycvsxgvtsdcfv jbxhghdv   xghdhuwgsdyfcvtsyfdycvsxgvtsdcfv j bxhghdv xghdhuwgsdyfcvtsyfdycvsxgvtsdcfv jbxhghdv bxhghdv xghdhuwgsdyfcvtsyfdycvsxgvtsdcfv jbxhghdv   v bhjghjjg hhjghjgghjg hjghjhhj hhfjfhj hfhfhj ghfhjfhj ghfhj jhjghjj hjgyjj gtdvctdv",
+    _id: "bsdgfcvrfgdf",
+    sender: {
+      _id: "user._id",
+      name: "tetu",
+    },
+    chat: "chatId",
+    createdAt: "2024-04-20T10:00:00Z",
+  },
+  {
+    attachments: [
+      {
+        public_id: "fdgcc",
+        url: "https://videos.pexels.com/video-files/20770858/20770858-hd_1080_1920_30fps.mp4",
+      },
+    ],
+    content: "sdfghjxghjhcvhjsxcvh chbhc",
+    _id: "bsdgfcvrfgdf",
+    sender: {
+      _id: "wertyuio",
+      name: "tetu",
+    },
+    chat: "chatId",
+    createdAt: "2024-04-20T10:00:00Z",
+  },
+  {
+    attachments: [
+      {
+        public_id: "fdgcc",
+        url: "https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3",
+      },
+    ],
+    content:
+      "cd   xghdhuwgsdyfcvtsyfdycvsxgvtsdcfv j bxhghdv xghdhuwgsdyfcvtsyfdycvsxgvtsdcfv jbxhghdv   xghdhuwgsdyfcvtsyfdycvsxgvtsdcfv j bxhghdv xghdhuwgsdyfcvtsyfdycvsxgvtsdcfv jbxhghdv bxhghdv xghdhuwgsdyfcvtsyfdycvsxgvtsdcfv jbxhghdv   v bhjghjjg hhjghjgghjg hjghjhhj hhfjfhj hfhfhj ghfhjfhj ghfhj jhjghjj hjgyjj gtdvctdv",
+    _id: "bsdgfcvrfgdf",
+    sender: {
+      _id: "user._id",
+      name: "tetu",
+    },
+    chat: "chatId",
+    createdAt: "2024-04-20T10:00:00Z",
   },
 ];

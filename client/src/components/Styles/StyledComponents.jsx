@@ -1,6 +1,7 @@
 import { Link as LinkComponent } from "react-router-dom";
 
-import { styled } from "@mui/material";
+import {styled } from "@mui/material";
+import colors from "../../constant/color";
 
 const VisualHiddenInput = styled("input")({
   border: 0,
@@ -22,7 +23,14 @@ const Link = styled(LinkComponent)`
   }
 `;
 
-export {
-  Link,
-  VisualHiddenInput
-}
+const InputBox = styled("input")`
+width: 100%;
+  height: 100;
+  border:none;
+  outline: none;
+  padding:0 3rem;
+  boarder-radius:2.5rem;
+  background-color: ${colors.grayColor};
+`;
+
+export { Link, InputBox, VisualHiddenInput };

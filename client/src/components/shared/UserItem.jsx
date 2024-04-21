@@ -1,13 +1,13 @@
 import { Stack, ListItem, Avatar, Typography, IconButton } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
+import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 import { memo } from "react";
 
 // eslint-disable-next-line react/prop-types
-const UserItem = ({ user, handler, handlerIsLoading }) => {
+const UserItem = ({ user, handler, handlerIsLoading, isAdded = false }) => {
   // eslint-disable-next-line react/prop-types, no-unused-vars
   const { name, _id, avatar } = user;
   return (
-    <ListItem >
+    <ListItem>
       <Stack
         direction={"row"}
         alignItems={"center"}
@@ -31,16 +31,18 @@ const UserItem = ({ user, handler, handlerIsLoading }) => {
         <IconButton
           size="small"
           sx={{
-            bgcolor: "primary.main",
+            bgcolor: isAdded ? "error.main" :  "primary.main",
             color: "white",
             "&:hover": {
-              bgcolor: "primary.dark",
+              bgcolor: isAdded ? "error.dark" :"primary.dark",
             },
           }}
           onClick={() => handler(_id)}
           disabled={handlerIsLoading}
         >
-          <AddIcon />
+          {
+            isAdded ? <RemoveIcon/> : <AddIcon/>
+          }
         </IconButton>
       </Stack>
     </ListItem>
