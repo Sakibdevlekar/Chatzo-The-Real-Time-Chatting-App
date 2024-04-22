@@ -65,7 +65,7 @@ function Header() {
               variant="h6"
               sx={{ display: { xs: "none", sm: "block" } }}
             >
-              Chatly
+              Chatzo
             </Typography>
             <Box sx={{ display: { xs: "block", sm: "none" } }}>
               <IconButton color="inherit" onClick={handelMobile}>

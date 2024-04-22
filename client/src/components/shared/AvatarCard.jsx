@@ -1,6 +1,7 @@
 import { AvatarGroup, Avatar, Box, Stack } from "@mui/material";
 import { transformImage } from "../../lib/features";
 
+// eslint-disable-next-line react/prop-types
 const AvatarCard = ({ avatar = [], max = 4 }) => {
   return (
     <Stack direction={"row"} spacing={0.5}>
