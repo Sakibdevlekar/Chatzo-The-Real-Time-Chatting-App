@@ -1,9 +1,18 @@
+/* eslint-disable react/prop-types */
 import { Stack, ListItem, Avatar, Typography, IconButton } from "@mui/material";
 import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 import { memo } from "react";
 
-// eslint-disable-next-line react/prop-types
-const UserItem = ({ user, handler, handlerIsLoading, isAdded = false }) => {
+// eslint-disable-next-line react/prop-types, react-refresh/only-export-components
+const UserItem = ({
+  // eslint-disable-next-line react/prop-types
+  user,
+  handler,
+  handlerIsLoading,
+  isAdded = false,
+  // eslint-disable-next-line no-unused-vars
+  styling = {},
+}) => {
   // eslint-disable-next-line react/prop-types, no-unused-vars
   const { name, _id, avatar } = user;
   return (
@@ -13,6 +22,7 @@ const UserItem = ({ user, handler, handlerIsLoading, isAdded = false }) => {
         alignItems={"center"}
         spacing={"1rem"}
         width={"100%"}
+        {...styling}
       >
         <Avatar src={avatar} />
         <Typography
@@ -31,22 +41,21 @@ const UserItem = ({ user, handler, handlerIsLoading, isAdded = false }) => {
         <IconButton
           size="small"
           sx={{
-            bgcolor: isAdded ? "error.main" :  "primary.main",
+            bgcolor: isAdded ? "error.main" : "primary.main",
             color: "white",
             "&:hover": {
-              bgcolor: isAdded ? "error.dark" :"primary.dark",
+              bgcolor: isAdded ? "error.dark" : "primary.dark",
             },
           }}
           onClick={() => handler(_id)}
           disabled={handlerIsLoading}
         >
-          {
-            isAdded ? <RemoveIcon/> : <AddIcon/>
-          }
+          {isAdded ? <RemoveIcon /> : <AddIcon />}
         </IconButton>
       </Stack>
     </ListItem>
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default memo(UserItem);

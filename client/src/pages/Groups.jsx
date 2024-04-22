@@ -22,6 +22,8 @@ import DoneIcon from "@mui/icons-material/Done";
 import colors from "../constant/color";
 import { Suspense, lazy, memo, useEffect, useState } from "react";
 import { sampleChats, sampleUser } from "../constant/SampleData";
+import UserItem from "../components/shared/UserItem";
+import GroupLogo from "../assets/group.svg";
 const ConfirmDeleteDialog = lazy(() =>
   import("../components/Dialogs/ConfirmDeleteDialog")
 );
@@ -54,8 +56,10 @@ function Groups() {
     console.log(GroupNameUpdatedValue);
   };
   useEffect(() => {
-    setGroupName("GroupName");
-    setGroupNameUpdatedValue("GroupName");
+    if (chatId) {
+      setGroupName(`Group Name: ${chatId}`);
+      setGroupNameUpdatedValue(`Group Name: ${chatId}`);
+    }
 
     return () => {
       setGroupName("");
@@ -63,6 +67,8 @@ function Groups() {
       setIsEdit(false);
     };
   }, [chatId]);
+
+  const removeMemberHandler = (id) => {};
 
   const handleMobileClose = () => setIsMobileOpen(false);
   const openAddMemberHandler = () => {};
@@ -149,8 +155,38 @@ function Groups() {
       </Button>
     </Stack>
   );
+
+  const GroupNameComponent = (
+    <Stack
+      direction={"row"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      spacing={"1rem"}
+      padding={"3rem"}
+    >
+      {isEdit ? (
+        <>
+          <TextField
+            value={GroupNameUpdatedValue}
+            onChange={(e) => setGroupNameUpdatedValue(e.target.value)}
+          />
+          <IconButton onClick={updateGroupNameHandler}>
+            <DoneIcon />
+          </IconButton>
+        </>
+      ) : (
+        <>
+          <Typography variant="h4">{GroupName}</Typography>
+          <IconButton onClick={() => setIsEdit(true)}>
+            <BorderColorIcon />
+          </IconButton>
+        </>
+      )}
+    </Stack>
+  );
   return (
-    <Grid container height={"100vh"}>
+    <Grid container height={"100vh"}
+    >
       <Grid
         item
         sx={{
@@ -158,6 +194,7 @@ function Groups() {
             xs: "none",
             sm: "block",
           },
+          
         }}
         sm={4}
         bgcolor={colors.grayColor}
@@ -178,59 +215,64 @@ function Groups() {
         }}
       >
         {IconBtn}
-        {
+        {GroupName ? (
+          <>
+            {GroupNameComponent}
+            <Typography
+              margin={"2rem"}
+              alignSelf={"flex-start"}
+              variant="body1"
+            >
+              Members
+            </Typography>
+            <Stack
+              maxWidth={"45rem"}
+              width={"100%"}
+              boxSizing={"border-box"}
+              padding={{
+                sm: "1rem",
+                xs: "0",
+                md: "1rem",
+              }}
+              spacing={"2rem"}
+              height={"50vh"}
+              overflow={"auto"}
+            >
+              {sampleUser.map((user, index) => (
+                <UserItem
+                  key={index}
+                  user={user}
+                  isAdded
+                  styling={{
+                    boxShadow: "0 0 0.5rem rgba(0,0,0,0.2)",
+                    padding: "1rem 2rem",
+                    borderRadius: "1rem",
+                  }}
+                  handler={removeMemberHandler}
+                />
+              ))}
+            </Stack>
+            {ButtonGroup}
+          </>
+        ) : (
           <Stack
-            direction={"row"}
-            
             alignItems={"center"}
             justifyContent={"center"}
-            spacing={"1rem"}
-            padding={"3rem"}
+            height={"100%"}
           >
-            {isEdit ? (
-              <>
-                <TextField
-                  value={GroupNameUpdatedValue}
-                  onChange={(e) => setGroupNameUpdatedValue(e.target.value)}
-                />
-                <IconButton onClick={updateGroupNameHandler}>
-                  <DoneIcon />
-                </IconButton>
-              </>
-            ) : (
-              GroupName && (
-                <>
-                  <Typography variant="h4">{GroupName}</Typography>
-                  <IconButton onClick={() => setIsEdit(true)}>
-                    <BorderColorIcon />
-                  </IconButton>
-                </>
-              )
-            )}
+            <img
+              src={GroupLogo}
+              alt="Group Logo"
+              style={{
+                maxWidth: "500px", 
+                maxHeight: "500px", 
+                width: "auto",
+                height: "auto",
+                display: "block",
+              }}
+            />
           </Stack>
-        }
-        <>
-          <Typography margin={"2rem"} alignSelf={"flex-start"} variant="body1">
-            Members
-          </Typography>
-          <Stack
-            maxWidth={"45rem"}
-            width={"100%"}
-            boxSizing={"border-box"}
-            padding={{
-              sm: "1rem",
-              xs: "0",
-              md: "1rem",
-            }}
-            spacing={"2rem"}
-            height={"50vh"}
-            bgcolor={"bisque"}
-            overflow={"auto"}
-          >
-            {sampleUser.map}
-          </Stack>
-          {ButtonGroup}
-        </>
+        )}
       </Grid>
       {isAddMember && (
         <Suspense fallback={<Backdrop open />}>
@@ -270,7 +312,13 @@ function Groups() {
 // eslint-disable-next-line react/prop-types
 const GroupList = ({ w = "100%", myGroup = [], chatId }) => {
   return (
-    <Stack width={w}>
+    <Stack width={w}
+    overflow={"auto"}
+    sx={{
+      height: "100vh",
+      overflow: "auto",
+    }}
+    >
       {myGroup.length !== 0 ? (
         myGroup.map((group, index) => (
           <GroupListItem key={index} group={group} chatId={chatId} />
@@ -285,6 +333,7 @@ const GroupList = ({ w = "100%", myGroup = [], chatId }) => {
 };
 // eslint-disable-next-line react/display-name, react/prop-types, no-unused-vars
 const GroupListItem = memo(({ group, chatId }) => {
+  // eslint-disable-next-line react/prop-types
   const { name, avatar, _id } = group;
   return (
     <Link
