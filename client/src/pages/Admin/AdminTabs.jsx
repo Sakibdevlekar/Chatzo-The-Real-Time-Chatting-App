@@ -22,8 +22,8 @@ export const adminTabs = [
     icon: <GroupsIcon />,
   },
   {
-    name: "Message",
-    path: "/admin/message-management",
+    name: "Messages",
+    path: "/admin/messages-management",
     icon: <ForumIcon />,
   },
 ];

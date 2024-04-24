@@ -1,4 +1,9 @@
 import {
+  Close as CloseIcon,
+  ExitToApp as ExitToAppIcon,
+  Menu as MenuIcon,
+} from "@mui/icons-material";
+import {
   Box,
   Drawer,
   Grid,
@@ -7,17 +12,8 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import {
-  Menu as MenuIcon,
-  Close as CloseIcon,
-  //   Search as SearchIcon,
-  //   Add as AddIcon,
-  //   Group as GroupIcon,
-  //   Logout as LogoutIcon,
-  //   Notifications as NotificationsIcon,
-} from "@mui/icons-material";
 import { useState } from "react";
-import { useLocation, Link as LikeComponent } from "react-router-dom";
+import { Link as LikeComponent, Navigate, useLocation } from "react-router-dom";
 import { adminTabs } from "../../pages/Admin/AdminTabs";
 
 const Link = styled(LikeComponent)`
@@ -33,8 +29,10 @@ const Link = styled(LikeComponent)`
 // eslint-disable-next-line react/prop-types
 const SideBar = ({ w = "100%" }) => {
   const location = useLocation();
+  const logoutHandler = () => {};
+
   return (
-    <Stack width={w} direction={"column"} p={"3rem"} spacing={"3rem"}>
+    <Stack width={w} direction={"column"} p={"1rem"} spacing={"3rem"}>
       <Typography variant="h5" textTransform={"uppercase"}>
         Admin
       </Typography>
@@ -47,19 +45,32 @@ const SideBar = ({ w = "100%" }) => {
               location.pathname === tab.path && {
                 bgcolor: "#ea7070",
                 color: "white",
+                "&:hover":{
+                  bgcolor: "#ea7070",
+                  color: "white",
+                }
               }
+              
             }
           >
             <Stack direction={"row"} alignContent={"center"} spacing={"1rem"}>
               {tab.icon}
-              <Typography>{tab.name}</Typography>
+              <Typography fontWeight={700}>{tab.name}</Typography>
             </Stack>
           </Link>
         ))}
+        <Link onClick={logoutHandler}>
+          <Stack direction={"row"} alignContent={"center"} spacing={"1rem"}>
+            <ExitToAppIcon />
+            <Typography fontWeight={700}>Logout</Typography>
+          </Stack>
+        </Link>
       </Stack>
     </Stack>
   );
 };
+
+const isAdmin = true;
 // eslint-disable-next-line react/prop-types
 const AdminLayout = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -67,6 +78,8 @@ const AdminLayout = ({ children }) => {
   const handleMobileView = () => setIsMobile(!isMobile);
 
   const handleDrawerClose = () => setIsMobile(false);
+  if (!isAdmin) return <Navigate to={"/admin"} />;
+
   return (
     <Grid container minHeight={"100vh"}>
       <Box

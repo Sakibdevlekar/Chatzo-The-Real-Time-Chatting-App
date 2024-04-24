@@ -9,7 +9,10 @@ const colors = {
     success: "#4caf50",
     dark: "#000000",
     light: "#ffffff",
-    matBlack:"#28282B"
+    matBlack:"#28282B",
+    purple:"rgb(75, 12, 192,1)",
+    purpleLight:"rgb(75, 12, 192,0.2)"
+
 }
 
 
