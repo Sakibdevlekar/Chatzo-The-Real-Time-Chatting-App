@@ -2,6 +2,7 @@ const colors = {
     orange: "#ea7070",
     grayColor:"rgba(247,247,247,1)",
     darkGray:"#4B5C6556",
+    exDarkGray:"#494F525E",
     secondary: "#000000",
     error: "#f44336",
     warning: "#ff9800",

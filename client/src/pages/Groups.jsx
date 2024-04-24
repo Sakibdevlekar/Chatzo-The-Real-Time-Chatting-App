@@ -32,7 +32,7 @@ const AddMemberDialog = lazy(() =>
   import("../components/Dialogs/AddMemberDialog")
 );
 
-const isAddMember = false;
+const isAddMember = true;
 
 function Groups() {
   const [GroupName, setGroupName] = useState("");

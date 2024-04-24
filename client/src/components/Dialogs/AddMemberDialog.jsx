@@ -1,8 +1,12 @@
+/* eslint-disable react/prop-types */
 import { Button, Dialog, DialogTitle, Stack, Typography } from "@mui/material";
 import { sampleUser } from "../../constant/SampleData";
+import NoResultFoundImage from "../../assets/NoResult.svg";
 import UserItem from "../shared/UserItem";
 import { useState } from "react";
+import colors from "../../constant/color";
 
+// eslint-disable-next-line no-unused-vars
 const AddMemberDialog = ({ addMember, isLoadingAddMember, ChatId }) => {
   const [members, setMembers] = useState(sampleUser);
   const [selectedMembers, setSelectedMembers] = useState([]);
@@ -38,7 +42,17 @@ const AddMemberDialog = ({ addMember, isLoadingAddMember, ChatId }) => {
               />
             ))
           ) : (
-            <Typography textAlign={"center"}>No Friends</Typography>
+            <Stack sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              
+            }}
+            spacing={"1rem"}>
+              <img src={NoResultFoundImage} alt="No Friends" height={"100rem"} width={"100rem"} style={{marginBottom:"1rem"}}/>
+              <Typography fontWeight={"550"} color={colors.exDarkGray} textAlign={"center"}>No Friends</Typography>
+            </Stack>
           )}
         </Stack>
         <Stack
