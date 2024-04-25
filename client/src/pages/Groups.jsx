@@ -68,7 +68,9 @@ function Groups() {
     };
   }, [chatId]);
 
-  const removeMemberHandler = (id) => {};
+  const removeMemberHandler = (id) => {
+    console.log(id);
+  };
 
   const handleMobileClose = () => setIsMobileOpen(false);
   const openAddMemberHandler = () => {};
