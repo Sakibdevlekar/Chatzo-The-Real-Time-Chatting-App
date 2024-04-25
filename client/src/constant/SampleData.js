@@ -113,3 +113,60 @@ export const sampleMessage = [
     createdAt: "2024-04-20T10:00:00Z",
   },
 ];
+
+export const dashboardData = {
+  users: [
+    {
+      _id: 1,
+      name: "john doe",
+      username: "john",
+      avatar: "https://www.w3schools.com/howto/img_avatar.png",
+      friends: 20,
+      groups: 5,
+    },
+    {
+      _id: 2,
+      name: "kajal patil",
+      username: "kaju",
+      avatar: "https://www.w3schools.com/howto/img_avatar.png",
+      friends: 100,
+      groups: 2,
+    },
+  ],
+  groups: [
+    {
+      _id: 1,
+      name: "The Boys",
+      avatar: "https://www.w3schools.com/howto/img_avatar.png",
+      groupChat: false,
+      members: [
+        "https://www.w3schools.com/howto/img_avatar2.png",
+        "https://www.w3schools.com/howto/img_avatar.png",
+        "https://www.w3schools.com/w3images/avatar6.png",
+      ],
+      totalMembers: 3,
+      totalMessages: 40,
+      creator: {
+        name: "Sd",
+        avatar: "https://www.w3schools.com/howto/img_avatar.png",
+      },
+    },
+    {
+      _id: 2,
+      name: "Electrets",
+      avatar: "https://www.w3schools.com/howto/img_avatar.png",
+      groupChat: false,
+      members: [
+        "https://www.w3schools.com/howto/img_avatar2.png",
+        "https://www.w3schools.com/howto/img_avatar.png",
+        "https://www.w3schools.com/w3images/avatar6.png",
+      ],
+      totalMembers: 3,
+      totalMessages: 20,
+      creator: {
+        name: "Sd",
+        avatar: "https://www.w3schools.com/howto/img_avatar.png",
+      },
+    },
+  ],
+};
