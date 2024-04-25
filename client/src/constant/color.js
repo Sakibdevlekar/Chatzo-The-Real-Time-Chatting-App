@@ -1,5 +1,6 @@
 const colors = {
     orange: "#ea7070",
+    orangeLight: "rgba(234,112,112,0.3)",
     grayColor:"rgba(247,247,247,1)",
     darkGray:"#4B5C6556",
     exDarkGray:"#494F525E",
@@ -7,7 +8,7 @@ const colors = {
     error: "#f44336",
     warning: "#ff9800",
     lightBlue: "#2196f3",
-    success: "#4caf50",
+    success: "#78A77A",
     dark: "#000000",
     light: "#ffffff",
     matBlack:"#28282B",

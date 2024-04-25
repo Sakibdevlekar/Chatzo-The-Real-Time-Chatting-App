@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const fileFormate = (url) => {
   const fileExtension = url.split(".").pop();
   if (
@@ -19,6 +21,17 @@ const fileFormate = (url) => {
   return "file";
 };
 
+// eslint-disable-next-line no-unused-vars
 const transformImage = (url, width = 100) => url;
 
-export { fileFormate, transformImage };
+const getLast7Days = () => {
+  const currentDate = moment();
+
+  const last7Days = [];
+  for (let i = 0; i < 7; i++) {
+    last7Days.unshift(currentDate.clone().subtract(i, "days").format("ddd"));
+  }
+  return last7Days;
+};
+
+export { fileFormate, transformImage, getLast7Days };

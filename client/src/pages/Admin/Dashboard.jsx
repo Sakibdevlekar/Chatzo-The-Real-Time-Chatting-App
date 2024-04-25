@@ -62,7 +62,21 @@ const Dashboard = () => {
       <Container component={"main"}>
         {AppBar}
 
-        <Stack direction={"row"} spacing={"2rem"} flexWrap={"wrap"}>
+        <Stack
+          direction={{
+            xs: "column",
+            lg: "row",
+          }}
+          flexWrap={"wrap"}
+          justifyContent={"center"}
+          alignContent={{
+            xs: "center",
+            lg: "stretch",
+          }}
+          sx={{
+            gap: "2rem",
+          }}
+        >
           <Paper
             elevation={3}
             sx={{
@@ -70,16 +84,16 @@ const Dashboard = () => {
               width: "100%",
               borderRadius: "1rem",
               maxWidth: "45rem",
-              height: "25rem",
             }}
           >
             <Typography variant="h4" margin={"2rem 0"}>
               Last Messages
             </Typography>
             {/*Line char Component*/}
-            <LineChart value={[1,10,50,80,45,20,36,78]}/>
+            <LineChart value={[1, 10, 50, 80, 45, 20, 36, 78]} />
           </Paper>
           <Paper
+            elevation={3}
             sx={{
               padding: "1rem",
               borderRadius: "1rem",
@@ -90,10 +104,12 @@ const Dashboard = () => {
               position: "relative",
               ...(window.innerWidth <= 600 && { width: "100%" }),
               maxWidth: "25rem",
-              height: "25rem",
             }}
           >
-            <DoughnutChart/>
+            <DoughnutChart
+              labels={["Single Chats", "Group Chats"]}
+              value={[35, 75]}
+            />
 
             <Stack
               position={"absolute"}
@@ -118,7 +134,7 @@ const Dashboard = () => {
 // eslint-disable-next-line react/prop-types
 const WidgetsComponent = ({ title, value, Icon }) => (
   <Paper
-  elevation={3}
+    elevation={3}
     sx={{
       padding: "2rem",
       margin: "2rem 0",
