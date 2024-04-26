@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { memo } from "react";
 import colors from "../../constant/color";
 import { Box, Typography } from "@mui/material";
@@ -5,6 +6,7 @@ import moment from "moment";
 import { fileFormate } from "../../lib/features";
 import RenderAttachment from "./RenderAttachment";
 
+// eslint-disable-next-line react/prop-types
 const MessageComponent = ({ message, user }) => {
   const { sender, content, attachments = [], createdAt } = message;
   const sameSender = sender?._id === user?._id;
@@ -27,6 +29,7 @@ const MessageComponent = ({ message, user }) => {
           flexWrap={"wrap"}
           variant="caption"
         >
+          {/*  eslint-disable-next-line react/prop-types */}
           {sender?.name}
         </Typography>
       )}

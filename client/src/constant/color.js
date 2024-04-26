@@ -8,7 +8,7 @@ const colors = {
     error: "#f44336",
     warning: "#ff9800",
     lightBlue: "#2196f3",
-    success: "#78A77A",
+    success: "#d3fcd2",
     dark: "#000000",
     light: "#ffffff",
     matBlack:"#28282B",

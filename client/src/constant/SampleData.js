@@ -169,4 +169,59 @@ export const dashboardData = {
       },
     },
   ],
+  messages: [
+    {
+      attachments: [
+        {
+          public_id: "fwedgcc",
+          url: "https://www.w3schools.com/howto/img_avatar2.png",
+        },
+      ],
+      content: "sadfgh",
+      _id: "bsdgfcvrwefgdf",
+      sender: {
+        _id: 1,
+        name: "mitu",
+        avatar: "https://www.w3schools.com/howto/img_avatar2.png",
+      },
+      chat: "chatId",
+      groupChat: true,
+      createdAt: "2024-04-20T10:00:00Z",
+    },
+    {
+      attachments: [
+        {
+          public_id: "fdgfscc",
+          url: "https://www.w3schools.com/howto/img_avatar2.png",
+        },
+        {
+          public_id: "fdgfscc",
+          url: "https://www.w3schools.com/howto/img_avatar2.png",
+        },
+      ],
+      content: "yee le image ",
+      _id: "bsdgfcvrffssgdf",
+      sender: {
+        _id: 2,
+        name: "nitu",
+        avatar: "https://www.w3schools.com/howto/img_avatar2.png",
+      },
+      groupChat: false,
+      chat: "chatId",
+      createdAt: "2024-04-20T10:00:00Z",
+    },
+    {
+      attachments: [],
+      content: "sadfgh",
+      _id: "svcgvgvsc",
+      sender: {
+        _id: 1,
+        name: "mitu",
+        avatar: "https://www.w3schools.com/howto/img_avatar2.png",
+      },
+      chat: "chatId",
+      groupChat: true,
+      createdAt: "2024-04-20T10:00:00Z",
+    },
+  ],
 };

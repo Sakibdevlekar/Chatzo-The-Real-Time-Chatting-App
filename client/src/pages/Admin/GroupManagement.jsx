@@ -1,10 +1,8 @@
-import { Avatar, Stack } from "@mui/material";
-import AvatarCard from "../../components/shared/AvatarCard";
-
 import { useEffect, useState } from "react";
+import { Avatar, Stack } from "@mui/material";
 import Table from "../../components/shared/Table";
-import { transformImage } from "../../lib/features";
 import { dashboardData } from "../../constant/SampleData";
+import AvatarCard from "../../components/shared/AvatarCard";
 import AdminLayout from "../../components/Layout/AdminLayout";
 
 const columns = [
@@ -64,7 +62,11 @@ const columns = [
     renderCell: (params) => {
       return (
         <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
-          <Avatar sx={{margin:"0.3rem"}} alt={params.row.name} src={params.row.avatar} />
+          <Avatar
+            sx={{ margin: "0.3rem" }}
+            alt={params.row.name}
+            src={params.row.avatar}
+          />
           <span>{params.row.creator.name}</span>
         </Stack>
       );

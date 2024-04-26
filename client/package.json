@@ -15,7 +15,7 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/x-data-grid": "^7.3.0",
-    "6pp": "^1.1.15",
+    "6pp": "^1.2.16",
     "chart.js": "^4.4.2",
     "framer-motion": "^11.0.25",
     "moment": "^2.30.1",
