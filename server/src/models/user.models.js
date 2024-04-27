@@ -1,7 +1,7 @@
 import mongoose, { Schema, model } from "mongoose";
 import { hash } from "bcrypt";
 
-const schema = new Schema(
+const userSchema = new Schema(
     {
         name: {
             type: String,
@@ -31,6 +31,12 @@ const schema = new Schema(
                 required: true,
             },
         },
+        refreshToken: {
+            type: String,
+            required: true,
+            default: null,
+            select: false,
+        },
     },
     {
         timestamps: true,
@@ -42,10 +48,18 @@ const schema = new Schema(
  * If the password field is modified, it hashes the password using bcrypt.
  * @param {import("mongoose").HookNextFunction} next - A callback function to continue the save process.
  */
-schema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
 
-    this.password = await hash(this.password, 10);
+    this.password = await hash(this.password, 12);
 });
 
-export const User = mongoose.models.User || model("User", schema);
+/**
+ * Compares the given plaintext password with the hashed password stored in the database.
+ * @param {string} password - The plaintext password to compare with the hashed password.
+ * @returns {boolean} `true` if the passwords match, `false` otherwise.
+ */
+userSchema.methods.isPasswordCorrect = async function (password) {
+    return await bcrypt.compare(password, this.password);
+};
+export const User = mongoose.models.User || model("User", userSchema);
