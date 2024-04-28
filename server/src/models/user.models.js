@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-import { hash } from "bcrypt";
+import { hash, compare } from "bcrypt";
 
 const userSchema = new Schema(
     {
@@ -60,6 +60,6 @@ userSchema.pre("save", async function (next) {
  * @returns {boolean} `true` if the passwords match, `false` otherwise.
  */
 userSchema.methods.isPasswordCorrect = async function (password) {
-    return await bcrypt.compare(password, this.password);
+    return await compare(password, this.password);
 };
 export const User = mongoose.models.User || model("User", userSchema);
