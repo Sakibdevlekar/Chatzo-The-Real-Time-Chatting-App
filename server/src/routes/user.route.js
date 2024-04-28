@@ -16,9 +16,16 @@ import {
     registerValidator,
 } from "../validators/user.validator.js";
 import { validateHandler } from "../validators/validationResult.js";
+import { isAuthenticated } from "../middlewares/auth.middleware.js";
 import { singleAvatar } from "../middlewares/handleUpload.middleware.js";
 
-app.post("/new", singleAvatar, registerValidator(), validateHandler, newUser);
+app.post(
+    "/new",
+    singleAvatar,
+    registerValidator(),
+    validateHandler,
+    registerUser,
+);
 
 app.post("/login", loginValidator(), validateHandler, login);
 
@@ -28,7 +35,7 @@ app.use(isAuthenticated);
 
 app.get("/me", getMyProfile);
 
-app.get("/logout", logout);
+app.get("/logout", logoutUser);
 
 app.get("/search", searchUser);
 
