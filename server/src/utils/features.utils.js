@@ -61,9 +61,23 @@ const sendToken = async (res, user, code, message) => {
         .json(new ApiResponse(code, user, message));
 };
 
+/**
+ * @function emitEvent
+ * @param {object} req - The request object.
+ * @param {string} event - The event to emit.
+ * @param {array} users - An array of user IDs or sockets to emit the event to.
+ * @param {object} data - The data to send along with the event.
+ * @description Emits an event to specified users or sockets using Socket.IO.
+ */
+const emitEvent = (req, event, users, data) => {
+    const io = req.app.get("io");
+    const usersSocket = getSockets(users);
+    io.to(usersSocket).emit(event, data);
+};
+
 export {
     sendToken,
-    // emitEvent,
+    emitEvent,
     // deleteFilesFromCloudinary,
     // uploadFilesToCloudinary,
 };
