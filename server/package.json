@@ -1,56 +1,56 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "Chatzo the real time chatting app with socket.io",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Sakibdevlekar/Chatzo-The-Real-Time-chatting-app.git"
-  },
-  "keywords": [
-    "mearn",
-    "stack",
-    "nodejs",
-    "soket.io",
-    "real",
-    "time",
-    "messaging",
-    "with",
-    "nodejs",
-    "express",
-    "mongodb",
-    "multer",
-    "mongoose"
-  ],
-  "author": "Sakib Devlekar",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Sakibdevlekar/Chatzo-The-Real-Time-chatting-app/issues"
-  },
-  "homepage": "https://github.com/Sakibdevlekar/Chatzo-The-Real-Time-chatting-app#readme",
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "cloudinary": "^2.2.0",
-    "cookie-parser": "^1.4.6",
-    "corn": "^0.0.1",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "express-validator": "^7.0.1",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.3.2",
-    "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1",
-    "socket.io": "^4.7.5",
-    "uuid": "^9.0.1",
-    "winston": "^3.13.0"
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^8.4.1",
-    "prettier": "^3.2.5"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "description": "Chatzo the real time chatting app with socket.io",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "SET NODE_ENV = PRODUCTION && node src/index.js",
+        "dev": "SET NODE_ENV = DEVELOPMENT && nodemon src/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Sakibdevlekar/Chatzo-The-Real-Time-chatting-app.git"
+    },
+    "keywords": [
+        "mearn",
+        "stack",
+        "nodejs",
+        "soket.io",
+        "real",
+        "time",
+        "messaging",
+        "with",
+        "nodejs",
+        "express",
+        "mongodb",
+        "multer",
+        "mongoose"
+    ],
+    "author": "Sakib Devlekar",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Sakibdevlekar/Chatzo-The-Real-Time-chatting-app/issues"
+    },
+    "homepage": "https://github.com/Sakibdevlekar/Chatzo-The-Real-Time-chatting-app#readme",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "cloudinary": "^2.2.0",
+        "cookie-parser": "^1.4.6",
+        "corn": "^0.0.1",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "express-validator": "^7.0.1",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.3.2",
+        "morgan": "^1.10.0",
+        "multer": "^1.4.5-lts.1",
+        "socket.io": "^4.7.5",
+        "uuid": "^9.0.1",
+        "winston": "^3.13.0"
+    },
+    "devDependencies": {
+        "@faker-js/faker": "^8.4.1",
+        "prettier": "^3.2.5"
+    }
 }
