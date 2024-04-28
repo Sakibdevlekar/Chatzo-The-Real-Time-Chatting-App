@@ -1,7 +1,4 @@
-import { body, param, validationResult } from "express-validator";
-
-
-
+import { body, param } from "express-validator";
 
 const newGroupValidator = () => [
     body("name", "Please Enter Name").notEmpty(),
@@ -49,7 +46,6 @@ const acceptRequestValidator = () => [
         .isBoolean()
         .withMessage("Accept must be a boolean"),
 ];
-
 
 export {
     acceptRequestValidator,

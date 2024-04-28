@@ -14,6 +14,10 @@ import {
     getMessages,
 } from "../controllers/chat.controller.js";
 import { attachmentsMulter } from "../middlewares/handleUpload.middleware.js";
+import { isAuthenticated } from "../middlewares/auth.middleware.js";
+
+// After here user must be logged in to access the routes
+app.use(isAuthenticated);
 
 router.post("/new", newGroupChat);
 
