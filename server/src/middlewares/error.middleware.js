@@ -39,7 +39,7 @@ const errorHandler = (err, req, res, next) => {
     const response = {
         ...error,
         message: error.message,
-        ...(process.env.NODE_ENV === "DEVELOPMENT"
+        ...(process.env.NODE_ENV.trim() === "DEVELOPMENT"
             ? { stack: error.stack }
             : {}), // Error stack traces should be visible in development for debugging
     };
