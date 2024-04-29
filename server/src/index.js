@@ -22,7 +22,7 @@ import {
     CHAT_LEAVED,
     ONLINE_USERS,
 } from "./constant/event.constant.js";
-const userSocketIDs = new Map();
+export const userSocketIDs = new Map();
 const onlineUsers = new Set();
 
 io.use((socket, next) => {

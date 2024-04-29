@@ -1,5 +1,5 @@
 import { cookieOptions } from "../constant/config.constant.js";
-import User from "../models/user.models.js";
+import { User } from "../models/user.models.js";
 import { ApiResponse, asyncHandler } from "./helper.util.js";
 
 /**

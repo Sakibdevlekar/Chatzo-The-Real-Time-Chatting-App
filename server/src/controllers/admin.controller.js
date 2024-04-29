@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import { asyncHandler, ApiResponse, ApiError } from "../utils/helper.util.js";
-import { Chat } from "../models/chat.js";
-import { Message } from "../models/message.js";
-import { User } from "../models/user.js";
+import { Chat } from "../models/chat.model.js";
+import { Message } from "../models/message.model.js";
+import { User } from "../models/user.models.js";
 import { cookieOptions } from "../constant/config.constant.js";
 
 /**

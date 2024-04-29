@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { adminSecretKey } from "../app.js";
 import { asyncHandler, ApiError } from "../utils/helper.util.js";
 import { User } from "../models/user.models.js";
 
@@ -21,7 +20,7 @@ const adminOnly = (req, res, next) => {
 
     const secretKey = jwt.verify(token, process.env.JWT_SECRET);
 
-    const isMatched = secretKey === adminSecretKey;
+    const isMatched = secretKey === process.env.ADMIN_SECRET_KEY;
 
     if (!isMatched) throw new ApiError("Only Admin can access this route", 401);
 

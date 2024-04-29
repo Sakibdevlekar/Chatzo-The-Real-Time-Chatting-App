@@ -315,7 +315,7 @@ const getMyFriends = asyncHandler(async (req, res) => {
 
 export {
     registerUser,
-    login,
+    // login,
     logoutUser,
     acceptFriendRequest,
     getMyFriends,

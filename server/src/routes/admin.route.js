@@ -8,9 +8,9 @@ import {
     allUsers,
     getAdminData,
     getDashboardStats,
-} from "../controllers/admin.js";
+} from "../controllers/admin.controller.js";
 import { adminLoginValidator } from "../validators/user.validator.js";
-import { validateHandler } from "../middlewares/validator.js";
+import { validateHandler } from "../validators/validationResult.js";
 import { adminOnly } from "../middlewares/auth.middleware.js";
 
 const app = express.Router();
