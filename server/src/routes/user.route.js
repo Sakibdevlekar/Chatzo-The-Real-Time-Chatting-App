@@ -14,12 +14,14 @@ import {
 import {
     loginValidator,
     registerValidator,
+    sendRequestValidator,
+    acceptRequestValidator
 } from "../validators/user.validator.js";
 import { validateHandler } from "../validators/validationResult.js";
 import { isAuthenticated } from "../middlewares/auth.middleware.js";
 import { singleAvatar } from "../middlewares/handleUpload.middleware.js";
 
-app.post(
+router.post(
     "/new",
     singleAvatar,
     registerValidator(),
@@ -31,30 +33,30 @@ app.post(
 
 // After here user must be logged in to access the routes
 
-app.use(isAuthenticated);
+router.use(isAuthenticated);
 
-app.get("/me", getMyProfile);
+router.get("/me", getMyProfile);
 
-app.get("/logout", logoutUser);
+router.get("/logout", logoutUser);
 
-app.get("/search", searchUser);
+router.get("/search", searchUser);
 
-app.put(
+router.put(
     "/sendrequest",
     sendRequestValidator(),
     validateHandler,
     sendFriendRequest,
 );
 
-app.put(
+router.put(
     "/acceptrequest",
     acceptRequestValidator(),
     validateHandler,
     acceptFriendRequest,
 );
 
-app.get("/notifications", getMyNotifications);
+router.get("/notifications", getMyNotifications);
 
-app.get("/friends", getMyFriends);
+router.get("/friends", getMyFriends);
 
 export { router as userRoutes };

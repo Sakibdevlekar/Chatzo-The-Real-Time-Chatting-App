@@ -17,8 +17,23 @@ const adminLoginValidator = () => [
     body("secretKey", "Please Enter Secret Key").notEmpty(),
 ];
 
+const sendRequestValidator = () => [
+    body("userId", "Please Enter User ID").notEmpty(),
+];
+
+const acceptRequestValidator = () => [
+    body("requestId", "Please Enter Request ID").notEmpty(),
+    body("accept")
+        .notEmpty()
+        .withMessage("Please Add Accept")
+        .isBoolean()
+        .withMessage("Accept must be a boolean"),
+];
+
 export {
     adminLoginValidator,
     loginValidator,
     registerValidator,
+    sendRequestValidator,
+    acceptRequestValidator
 };

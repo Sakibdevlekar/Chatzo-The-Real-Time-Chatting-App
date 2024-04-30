@@ -13,22 +13,21 @@ import { adminLoginValidator } from "../validators/user.validator.js";
 import { validateHandler } from "../validators/validationResult.js";
 import { adminOnly } from "../middlewares/auth.middleware.js";
 
-const app = express.Router();
 
-app.post("/verify", adminLoginValidator(), validateHandler, adminLogin);
+router.post("/verify", adminLoginValidator(), validateHandler, adminLogin);
 
-app.get("/logout", adminLogout);
+router.get("/logout", adminLogout);
 
 // Only Admin Can Accecss these Routes
 
-app.use(adminOnly);
+router.use(adminOnly);
 
-app.get("/", getAdminData);
+router.get("/", getAdminData);
 
-app.get("/users", allUsers);
-app.get("/chats", allChats);
-app.get("/messages", allMessages);
+router.get("/users", allUsers);
+router.get("/chats", allChats);
+router.get("/messages", allMessages);
 
-app.get("/stats", getDashboardStats);
+router.get("/stats", getDashboardStats);
 
 export { router as adminRoutes };
