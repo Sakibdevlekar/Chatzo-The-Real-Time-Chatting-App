@@ -2,6 +2,7 @@ import express from "express";
 import { BASE_URL } from "./constant/config.constant.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { Server } from "socket.io";
 import { createServer } from "http";
 const app = express();
@@ -10,6 +11,16 @@ const io = new Server(server);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5173",
+            "http://localhost:4173",
+            String(process.env.CLIENT_URL),
+        ],
+        credentials: true,
+    }),
+);
 
 /* Route Import */
 import { adminRoutes } from "./routes/admin.route.js";
@@ -23,4 +34,4 @@ app.use(`${BASE_URL}/chat`, chatRoutes);
 
 app.use(errorHandler);
 
-export { app, io,server };
+export { app, io, server };
