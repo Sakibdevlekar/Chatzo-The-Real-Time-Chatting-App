@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 import {
     registerUser,
-    // login,
+    loginUser,
     logoutUser,
     acceptFriendRequest,
     getMyFriends,
@@ -29,7 +29,7 @@ router.post(
     registerUser,
 );
 
-// app.post("/login", loginValidator(), validateHandler, login);
+router.post("/login", loginValidator(), validateHandler, loginUser);
 
 // After here user must be logged in to access the routes
 

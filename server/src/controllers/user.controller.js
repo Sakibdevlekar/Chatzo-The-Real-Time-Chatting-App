@@ -1,12 +1,14 @@
-import { User } from "../models/user.models.js";
-import { Chat } from "../models/chat.model.js";
+import { REFETCH_CHATS, NEW_REQUEST } from "../constant/event.constant.js";
 import { getOtherMember } from "../lib/helper.lib.js";
-import { sendToken } from "../utils/features.utils.js";
-import { asyncHandler, ApiResponse, ApiError } from "../utils/helper.util.js";
+import { Chat } from "../models/chat.model.js";
+import { Request } from "../models/request.model.js";
+import { User } from "../models/user.models.js";
+import { uploadFilesToCloudinary } from "../utils/cloudinary.utils.js";
+import { emitEvent, sendToken } from "../utils/features.utils.js";
+import { ApiError, ApiResponse, asyncHandler } from "../utils/helper.util.js";
 
 const registerUser = asyncHandler(async (req, res, next) => {
     const { name, username, password, bio } = req.body;
-
     const file = req.file;
 
     if (!file) throw new ApiError("Please Upload Avatar");
@@ -25,8 +27,27 @@ const registerUser = asyncHandler(async (req, res, next) => {
         password,
         avatar,
     });
+    const createdUser = await User.findById(user._id).select(
+        "-password -refreshToken",
+    );
+    sendToken(res, createdUser, 201, "User created");
+});
 
-    sendToken(res, user, 201, "User created");
+const loginUser = asyncHandler(async (req, res) => {
+    const { username, password } = req.body;
+
+    const user = await User.findOne({ username: username }).select("+password");
+
+    if (!user) {
+        throw new ApiError(404, "User not registerd");
+    }
+
+    const isPasswordValid = await user.isPasswordCorrect(password);
+
+    if (!isPasswordValid) {
+        throw new ApiError(401, "Invalid user credentials");
+    }
+    sendToken(res, user._id, 200, `Welcome Back, ${user.name}`);
 });
 
 /**
@@ -62,15 +83,9 @@ const logoutUser = asyncHandler(async (req, res) => {
     // Clear the access and refresh token cookies
     return res
         .status(200)
-        .clearCookie("accessToken", options)
-        .clearCookie("refreshToken", options)
-        .json(
-            new ApiResponse(
-                200,
-                {},
-                responseMessage.userMessage.logoutSuccessful,
-            ),
-        );
+        .clearCookie("chatzo-access-token", options)
+        .clearCookie("chatzo-refresh-token", options)
+        .json(new ApiResponse(200, {}, "Logged out successfully"));
 });
 
 /**
@@ -114,7 +129,7 @@ const searchUser = asyncHandler(async (req, res) => {
 
     // Find all users except me and my friends based on the name query
     const allUsersExceptMeAndFriends = await User.find({
-        _id: { $nin: allUsersFromMyChats }, // Exclude me and my friends
+        _id: { $nin: allUsersFromMyChats.concat(req.user) }, // Exclude me and my friends
         name: { $regex: name, $options: "i" }, // Case-insensitive name search
     });
 
@@ -314,13 +329,13 @@ const getMyFriends = asyncHandler(async (req, res) => {
 });
 
 export {
-    registerUser,
-    // login,
-    logoutUser,
     acceptFriendRequest,
     getMyFriends,
     getMyNotifications,
     getMyProfile,
+    loginUser,
+    logoutUser,
+    registerUser,
     searchUser,
     sendFriendRequest,
 };
