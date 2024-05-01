@@ -29,6 +29,7 @@ function search() {
   let isLoadingSendFriendRequest = false;
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [user, setUser] = useState([]);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [loading, setLoading] = useState(false);
   const addFriendHandler = (id) => {
     console.log(id);
@@ -47,6 +48,7 @@ function search() {
     return () => {
       clearTimeout(timeOutId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.value]);
 
   return (

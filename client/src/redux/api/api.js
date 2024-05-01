@@ -23,32 +23,12 @@ const api = createApi({
       providesTags: ["User"],
     }),
 
-    sendFriendRequest: builder.mutation({
-      query: (data) => ({
-        url: "user/sendrequest",
-        method: "PUT",
-        credentials: "include",
-        body: data,
-      }),
-      invalidatesTags: ["User"],
-    }),
-
     getNotifications: builder.query({
       query: () => ({
         url: `user/notifications`,
         credentials: "include",
       }),
       keepUnusedDataFor: 0,
-    }),
-
-    acceptFriendRequest: builder.mutation({
-      query: (data) => ({
-        url: "user/acceptrequest",
-        method: "PUT",
-        credentials: "include",
-        body: data,
-      }),
-      invalidatesTags: ["Chat"],
     }),
 
     chatDetails: builder.query({
@@ -72,15 +52,6 @@ const api = createApi({
       keepUnusedDataFor: 0,
     }),
 
-    sendAttachments: builder.mutation({
-      query: (data) => ({
-        url: "chat/message",
-        method: "POST",
-        credentials: "include",
-        body: data,
-      }),
-    }),
-
     myGroups: builder.query({
       query: () => ({
         url: "chat/my/groups",
@@ -100,6 +71,35 @@ const api = createApi({
         };
       },
       providesTags: ["Chat"],
+    }),
+
+    sendFriendRequest: builder.mutation({
+      query: (data) => ({
+        url: "user/sendrequest",
+        method: "PUT",
+        credentials: "include",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    acceptFriendRequest: builder.mutation({
+      query: (data) => ({
+        url: "user/acceptrequest",
+        method: "PUT",
+        credentials: "include",
+        body: data,
+      }),
+      invalidatesTags: ["Chat"],
+    }),
+
+    sendAttachments: builder.mutation({
+      query: (data) => ({
+        url: "chat/message",
+        method: "POST",
+        credentials: "include",
+        body: data,
+      }),
     }),
 
     newGroup: builder.mutation({
