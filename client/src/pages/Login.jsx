@@ -14,7 +14,13 @@ import { VisibilityRounded, VisibilityOffRounded } from "@mui/icons-material";
 import { useInputValidation, useStrongPassword, useFileHandler } from "6pp";
 import { useState } from "react";
 import { userNameValidator } from "../utils/validator";
+import axios from "axios";
+import { server } from "../constant/config";
+import { useDispatch } from "react-redux";
+import { userExists } from "../redux/reducers/auth.reducer";
+import toast from "react-hot-toast";
 function Login() {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const [isLogin, setIsLogin] = useState(true);
@@ -31,10 +37,63 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const { data } = await axios.post(
+        `${server}/user/login`,
+        {
+          username: userName.value,
+          password: password.value,
+        },
+        config
+      );
+      if (data.statusCode === 200) {
+        dispatch(userExists(true));
+        toast.success(data.message);
+      } else if (data.statusCode === 401) {
+        dispatch(userExists(false));
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+          "Something went wrong while trying to login"
+      );
+    }
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("avatar", avatar.file);
+    formData.append("name", name.value);
+    formData.append("username", userName.value);
+    formData.append("bio", bio.value);
+    formData.append("password", password.value);
+    try {
+      const config = {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      };
+      const { data } = await axios.post(`${server}/user/new`, formData, config);
+      if (data.statusCode === 201) {
+        dispatch(userExists(true));
+        toast.success(data.message);
+      } else if (data.statusCode === 400) {
+        dispatch(userExists(false));
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+          "Something went wrong while trying to login"
+      );
+    }
   };
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -112,11 +171,11 @@ function Login() {
                     ),
                   }}
                 />
-                {password.error && (
+                {/* {password.error && (
                   <Typography color="error" variant="caption">
                     {password.error}
                   </Typography>
-                )}
+                )} */}
                 <Button
                   sx={{ marginTop: "1rem" }}
                   variant="contained"

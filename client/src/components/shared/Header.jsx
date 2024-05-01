@@ -18,11 +18,17 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { Suspense, useState, lazy } from "react";
+import axios from "axios";
+import { server } from "../../constant/config";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { userNotExists } from "../../redux/reducers/auth.reducer";
 const SearchDialog = lazy(() => import("../specific/Search"));
 const Notification = lazy(() => import("../specific/Notification"));
 const NewGroup = lazy(() => import("../specific/NewGroup"));
 
 function Header() {
+  const dispatch = useDispatch();
   const [isSearch, setIsSearch] = useState(false);
   const [isNotifications, setIsNotifications] = useState(false);
   const [isNewGroup, setIsNewGroup] = useState(false);
@@ -47,8 +53,24 @@ function Header() {
     setIsNotifications((prev) => !prev);
   };
 
-  const LogoutHandler = () => {
-    console.log("logout");
+  const LogoutHandler = async () => {
+    try {
+      const { data } = await axios.get(`${server}/user/logout`, {
+        withCredentials: true,
+      });
+      if (data.statusCode === 200) {
+        dispatch(userNotExists())
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error.response?.data?.message ||
+          "Something went wrong while trying to logout"
+      );
+    }
   };
 
   return (
