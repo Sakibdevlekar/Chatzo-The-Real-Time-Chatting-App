@@ -2,6 +2,7 @@
 import { Stack, ListItem, Avatar, Typography, IconButton } from "@mui/material";
 import { Add as AddIcon, Remove as RemoveIcon } from "@mui/icons-material";
 import { memo } from "react";
+import { transformImage } from "../../lib/features";
 
 // eslint-disable-next-line react/prop-types, react-refresh/only-export-components
 const UserItem = ({
@@ -22,9 +23,12 @@ const UserItem = ({
         alignItems={"center"}
         spacing={"1rem"}
         width={"100%"}
+        border={`0.1rem solid #5557583B`}
+        borderRadius={"0.5rem"}
+        padding={"1rem"}
         {...styling}
       >
-        <Avatar src={avatar} />
+        <Avatar src={transformImage(avatar)} />
         <Typography
           variant="body1"
           sx={{

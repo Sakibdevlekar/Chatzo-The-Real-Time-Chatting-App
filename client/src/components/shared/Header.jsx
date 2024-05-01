@@ -21,24 +21,26 @@ import { Suspense, useState, lazy } from "react";
 import axios from "axios";
 import { server } from "../../constant/config";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userNotExists } from "../../redux/reducers/auth.reducer";
+import { setIsMobile, setIsSearch } from "../../redux/reducers/misc";
 const SearchDialog = lazy(() => import("../specific/Search"));
 const Notification = lazy(() => import("../specific/Notification"));
 const NewGroup = lazy(() => import("../specific/NewGroup"));
 
 function Header() {
   const dispatch = useDispatch();
-  const [isSearch, setIsSearch] = useState(false);
+  const Navigate = useNavigate();
+  const { isSearch } = useSelector((state) => state.misc);
+
   const [isNotifications, setIsNotifications] = useState(false);
   const [isNewGroup, setIsNewGroup] = useState(false);
 
-  const Navigate = useNavigate();
   const handelMobile = () => {
-    console.log("mobile");
+    dispatch(setIsMobile(true));
   };
   const openSearchDialog = () => {
-    setIsSearch((prev) => !prev);
+    dispatch(setIsSearch(true));
   };
 
   const openNewGroup = () => {
@@ -59,7 +61,7 @@ function Header() {
         withCredentials: true,
       });
       if (data.statusCode === 200) {
-        dispatch(userNotExists())
+        dispatch(userNotExists());
         toast.success(data.message);
       } else {
         toast.error(data.message);
