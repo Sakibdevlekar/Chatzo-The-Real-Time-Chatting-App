@@ -3,13 +3,12 @@ import { asyncHandler, ApiError } from "../utils/helper.util.js";
 import { User } from "../models/user.models.js";
 
 const isAuthenticated = asyncHandler((req, res, next) => {
-    console.log("herer");
     const token = req.cookies["chatzo-access-token"];
     if (!token) throw new ApiError(401, "Please login to access this route");
 
-    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+    const decodedData = jwt.verify(token, process.env.JWT_ACCESS_SECRET_KEY);
 
-    req.user = decodedData._id;
+    req.user = decodedData.userId;
 
     next();
 });
