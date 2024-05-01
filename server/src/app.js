@@ -1,5 +1,6 @@
 import express from "express";
 import { BASE_URL } from "./constant/config.constant.js";
+import { corsOptions } from "./constant/config.constant.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -7,7 +8,11 @@ import { Server } from "socket.io";
 import { createServer } from "http";
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+    cors: corsOptions,
+});
+
+app.set("io", io);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
