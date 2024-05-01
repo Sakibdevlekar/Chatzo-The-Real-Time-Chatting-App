@@ -57,20 +57,22 @@ function Header() {
 
   const LogoutHandler = async () => {
     try {
+      toast.loading("Please wait your request being processed", { id: 1 });
       const { data } = await axios.get(`${server}/user/logout`, {
         withCredentials: true,
       });
       if (data.statusCode === 200) {
         dispatch(userNotExists());
-        toast.success(data.message);
+        toast.success(data.message, { id: 1 });
       } else {
-        toast.error(data.message);
+        toast.error(data.message, { id: 1 });
       }
     } catch (error) {
       console.log(error);
       toast.error(
         error.response?.data?.message ||
-          "Something went wrong while trying to logout"
+          "Something went wrong while trying to logout",
+        { id: 1 }
       );
     }
   };

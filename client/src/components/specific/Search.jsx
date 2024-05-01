@@ -1,21 +1,25 @@
+import { useInputValidation } from "6pp";
+import { Search as SearchIcon } from "@mui/icons-material";
 import {
   Dialog,
   DialogTitle,
-  TextField,
-  Stack,
   InputAdornment,
   List,
-  Typography,
   Skeleton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import { Search as SearchIcon } from "@mui/icons-material";
-import { useInputValidation } from "6pp";
-import UserItem from "../shared/UserItem";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsSearch } from "../../redux/reducers/misc";
-import { useLazySearchUserQuery } from "../../redux/api/api";
 import NoResult from "../../assets/NoResult.svg";
+import { useAsyncMutation } from "../../hooks/hook";
+import {
+  useLazySearchUserQuery,
+  useSendFriendRequestMutation,
+} from "../../redux/api/api";
+import { setIsSearch } from "../../redux/reducers/misc";
+import UserItem from "../shared/UserItem";
 function search() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const search = useInputValidation("");
@@ -26,13 +30,16 @@ function search() {
   const searchCloseHandler = () => dispatch(setIsSearch(false));
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [searchUser] = useLazySearchUserQuery();
-  let isLoadingSendFriendRequest = false;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [sendFriendRequest, isLoadingSendFriendRequest] = useAsyncMutation(
+    useSendFriendRequestMutation
+  );
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [user, setUser] = useState([]);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [loading, setLoading] = useState(false);
-  const addFriendHandler = (id) => {
-    console.log(id);
+  const addFriendHandler = async (id) => {
+    await sendFriendRequest("sending friend request...", { userId: id });
   };
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {

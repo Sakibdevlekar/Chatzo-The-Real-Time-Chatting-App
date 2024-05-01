@@ -44,6 +44,7 @@ function Login() {
       },
     };
     try {
+      toast.loading("Please wait your request being processed", { id: 1 });
       const { data } = await axios.post(
         `${server}/user/login`,
         {
@@ -54,15 +55,16 @@ function Login() {
       );
       if (data.statusCode === 200) {
         dispatch(userExists(true));
-        toast.success(data.message);
+        toast.success(data.message, { id: 1 });
       } else if (data.statusCode === 401) {
         dispatch(userExists(false));
-        toast.error(data.message);
+        toast.error(data.message, { id: 1 });
       }
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          "Something went wrong while trying to login"
+          "Something went wrong while trying to login",
+        { id: 1 }
       );
     }
   };
@@ -76,6 +78,7 @@ function Login() {
     formData.append("bio", bio.value);
     formData.append("password", password.value);
     try {
+      toast.loading("Please wait your request being processed", { id: 2 });
       const config = {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
@@ -83,7 +86,7 @@ function Login() {
       const { data } = await axios.post(`${server}/user/new`, formData, config);
       if (data.statusCode === 201) {
         dispatch(userExists(true));
-        toast.success(data.message);
+        toast.success(data.message, { id: 2 });
       } else if (data.statusCode === 400) {
         dispatch(userExists(false));
         toast.error(data.message);
