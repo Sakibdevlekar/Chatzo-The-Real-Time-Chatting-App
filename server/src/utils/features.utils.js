@@ -1,8 +1,8 @@
 import { cookieOptions } from "../constant/config.constant.js";
+import { getSockets } from "../lib/helper.lib.js";
 import { User } from "../models/user.models.js";
-import { ApiResponse, asyncHandler } from "./helper.util.js";
-import { v2 as cloudinary } from "cloudinary";
-import { getBase64, getSockets } from "../lib/helper.lib.js";
+import { ApiError, ApiResponse, asyncHandler } from "./helper.util.js";
+import jwt from "jsonwebtoken";
 
 /**
  * @function generateAccessAndRefreshTokens
@@ -14,29 +14,40 @@ import { getBase64, getSockets } from "../lib/helper.lib.js";
  * It retrieves the user from the database using the provided user ID, generates an access token and a refresh token,
  * associates the refresh token with the user, saves the user with the updated refresh token, and returns the generated tokens.
  */
-const generateAccessAndRefreshTokens = asyncHandler(async (userId) => {
-    // Retrieve user details from the database based on the provided user ID
-    const user = await User.findById(userId);
+const generateAccessAndRefreshTokens = async (userId) => {
+    try {
+        // Retrieve user details from the database based on the provided user ID
+        const user = await User.findById(userId);
 
-    let payload = {
-        userId: user._id,
-    };
+        let payload = {
+            userId: user._id,
+        };
 
-    // Generate access and refresh tokens using the user's details
-    const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET_KEY, {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    });
-    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET_KEY, {
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-    });
+        // Generate access and refresh tokens using the user's details
+        const accessToken = jwt.sign(
+            payload,
+            process.env.JWT_ACCESS_SECRET_KEY,
+            {
+                expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+            },
+        );
+        const refreshToken = jwt.sign(
+            payload,
+            process.env.JWT_REFRESH_SECRET_KEY,
+            {
+                expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+            },
+        );
 
-    // Associate the generated refresh token with the user and save it to the database
-    user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
-
-    // Return the generated access and refresh tokens
-    return { accessToken, refreshToken };
-});
+        // Associate the generated refresh token with the user and save it to the database
+        user.refreshToken = refreshToken;
+        await user.save({ validateBeforeSave: false });
+        // Return the generated access and refresh tokens
+        return Promise.resolve({ accessToken, refreshToken });
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
 
 /**
  * @async
@@ -77,43 +88,4 @@ const emitEvent = (req, event, users, data) => {
     io.to(usersSocket).emit(event, data);
 };
 
-const uploadFilesToCloudinary = async (files = []) => {
-    const uploadPromises = files.map((file) => {
-        return new Promise((resolve, reject) => {
-            cloudinary.uploader.upload(
-                getBase64(file),
-                {
-                    resource_type: "auto",
-                    public_id: uuid(),
-                },
-                (error, result) => {
-                    if (error) return reject(error);
-                    resolve(result);
-                },
-            );
-        });
-    });
-
-    try {
-        const results = await Promise.all(uploadPromises);
-
-        const formattedResults = results.map((result) => ({
-            public_id: result.public_id,
-            url: result.secure_url,
-        }));
-        return formattedResults;
-    } catch (err) {
-        throw new Error("Error uploading files to cloudinary", err);
-    }
-};
-
-const deletFilesFromCloudinary = async (public_ids) => {
-    // Delete files from cloudinary
-};
-
-export {
-    sendToken,
-    emitEvent,
-    deletFilesFromCloudinary,
-    uploadFilesToCloudinary,
-};
+export { emitEvent, sendToken };
