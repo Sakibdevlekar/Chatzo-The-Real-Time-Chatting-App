@@ -9,11 +9,12 @@ import {
     NEW_MESSAGE_ALERT,
     REFETCH_CHATS,
 } from "../constant/event.constant.js";
+import { emitEvent } from "../utils/features.utils.js";
+
 import {
     deletFilesFromCloudinary,
-    emitEvent,
     uploadFilesToCloudinary,
-} from "../utils/features.utils.js";
+} from "../utils/cloudinary.utils.js";
 
 /**
  * @async

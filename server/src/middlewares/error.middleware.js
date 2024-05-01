@@ -1,5 +1,6 @@
 import { logger } from "../logger/winston.logger.js";
 import { ApiError, asyncHandler } from "../utils/helper.util.js";
+import mongoose from "mongoose";
 
 /**
  *
@@ -23,6 +24,12 @@ const errorHandler = (err, req, res, next) => {
         // console.log(error);
         const statusCode =
             error.statusCode || error instanceof mongoose.Error ? 400 : 500;
+
+        if (err.code === 11000) {
+            const error = Object.keys(err.keyPattern).join(",");
+            err.message = `Duplicate field - ${error}`;
+            err.statusCode = 400;
+        }
 
         // set a message from native Error instance or a custom one
         const message = error.message || "Something went wrong";
