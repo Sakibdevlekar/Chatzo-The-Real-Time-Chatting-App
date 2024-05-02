@@ -1,29 +1,33 @@
 import {
-  AppBar,
-  Typography,
-  Toolbar,
-  Box,
-  IconButton,
-  Tooltip,
-  Backdrop,
-} from "@mui/material";
-import colors from "../../constant/color";
-import {
-  Menu as MenuIcon,
-  Search as SearchIcon,
   Add as AddIcon,
   Group as GroupIcon,
   Logout as LogoutIcon,
+  Menu as MenuIcon,
   Notifications as NotificationsIcon,
+  Search as SearchIcon,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import { Suspense, useState, lazy } from "react";
+import {
+  AppBar,
+  Backdrop,
+  Box,
+  IconButton,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
-import { server } from "../../constant/config";
+import { Suspense, lazy, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import colors from "../../constant/color";
+import { server } from "../../constant/config";
 import { userNotExists } from "../../redux/reducers/auth.reducer";
-import { setIsMobile, setIsSearch } from "../../redux/reducers/misc";
+import {
+  setIsMobile,
+  setIsNotification,
+  setIsSearch,
+} from "../../redux/reducers/misc";
 const SearchDialog = lazy(() => import("../specific/Search"));
 const Notification = lazy(() => import("../specific/Notification"));
 const NewGroup = lazy(() => import("../specific/NewGroup"));
@@ -31,9 +35,8 @@ const NewGroup = lazy(() => import("../specific/NewGroup"));
 function Header() {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const { isSearch } = useSelector((state) => state.misc);
+  const { isSearch, isNotification } = useSelector((state) => state.misc);
 
-  const [isNotifications, setIsNotifications] = useState(false);
   const [isNewGroup, setIsNewGroup] = useState(false);
 
   const handelMobile = () => {
@@ -52,7 +55,7 @@ function Header() {
   };
 
   const handelNotificationOpen = () => {
-    setIsNotifications((prev) => !prev);
+    dispatch(setIsNotification(true));
   };
 
   const LogoutHandler = async () => {
@@ -143,7 +146,7 @@ function Header() {
           <NewGroup />
         </Suspense>
       )}
-      {isNotifications && (
+      {isNotification && (
         <Suspense fallback={<Backdrop open={true} />}>
           <Notification />
         </Suspense>

@@ -4,21 +4,65 @@ import {
   Dialog,
   DialogTitle,
   ListItem,
+  Skeleton,
   Stack,
-  Typography
+  Typography,
 } from "@mui/material";
 import { memo } from "react";
-import { sampleNotification } from "../../constant/SampleData";
+import { useDispatch, useSelector } from "react-redux";
+import { useErrors } from "../../hooks/hook";
+import {
+  useAcceptFriendRequestMutation,
+  useGetNotificationsQuery,
+} from "../../redux/api/api";
+import { setIsNotification } from "../../redux/reducers/misc";
+import { transformImage } from "../../lib/features";
+import toast from "react-hot-toast";
 
 function notification() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const dispatch = useDispatch();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { isNotification } = useSelector((state) => state.misc);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { isLoading, data, error, isError } = useGetNotificationsQuery();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [acceptRequest] = useAcceptFriendRequestMutation();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useErrors([{ isError, error }]);
   // eslint-disable-next-line no-unused-vars
-  const frindReqHandler = ({ _id, accept }) => {};
+  const frindReqHandler = async ({ _id, accept }) => {
+    dispatch(setIsNotification(false));
+    try {
+      const { data } = await acceptRequest({ requestId: _id, accept });
+      if (data?.statusCode === 200) {
+        toast.success(data?.message || "Frind request accepted");
+      } else {
+        toast.error(data?.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
+  const closeNotificationDialog = () => dispatch(setIsNotification(false));
   return (
-    <Dialog open>
-      <Stack sx={{ xs: "1rem", sm: "2rem" }}>
+    <Dialog open={isNotification} onClose={closeNotificationDialog}>
+      <Stack sx={{ xs: "1rem", sm: "2rem" }} padding={"1rem"}>
         <DialogTitle>Notification</DialogTitle>
-        {sampleNotification.length > 0 ? (
-          sampleNotification.map(({ sender, _id }, index) => (
+        {isLoading ? (
+          <Stack spacing={"1rem"} sx={{ xs: "1rem", sm: "2rem" }}>
+            {Array.from({ length: 2 }).map((_, index) => (
+              <Skeleton
+                key={index}
+                variant="rounded"
+                height={"3rem"}
+                width={"17.5rem"}
+              />
+            ))}
+          </Stack>
+        ) : data?.data.length > 0 ? (
+          data?.data.map(({ sender, _id }, index) => (
             <NotificationItems
               key={index}
               sender={sender}
@@ -58,7 +102,7 @@ const NotificationItems = memo(({ sender, _id, handler }) => {
         spacing={"1rem"}
         width={"100%"}
       >
-        <Avatar src={avatar} />
+        <Avatar src={transformImage(avatar, 6000)} />
         <Typography
           variant="body1"
           sx={{
