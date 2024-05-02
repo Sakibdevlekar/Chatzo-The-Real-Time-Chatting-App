@@ -5,10 +5,14 @@ import {
   AlternateEmail as UserNameIcon,
   CalendarMonth as CalendarIcon,
 } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 const Profile = () => {
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <Stack spacing={"2rem"} direction={"column"} alignItems={"center"}>
       <Avatar
+        src={user?.data?.avatar?.url}
         sx={{
           width: 200,
           height: 200,
@@ -17,12 +21,16 @@ const Profile = () => {
           border: "5px solid white",
         }}
       />
-      <ProfileCard heading={"Bio"} text={"sassa sdsdsf dsfs "} />
-      <ProfileCard heading={"username"} text={"user"} Icon={UserNameIcon} />
-      <ProfileCard heading={"Name"} text={"Name"} Icon={FaceIcon} />
+      <ProfileCard heading={"Bio"} text={user?.data?.bio} />
+      <ProfileCard
+        heading={"username"}
+        text={user?.data?.username}
+        Icon={UserNameIcon}
+      />
+      <ProfileCard heading={"Name"} text={user?.data?.name} Icon={FaceIcon} />
       <ProfileCard
         heading={"Joined"}
-        text={moment("2024-04-01T09:27:59.133+00:00").fromNow()}
+        text={moment(user?.data?.createdAt).fromNow()}
         Icon={CalendarIcon}
       />
     </Stack>
