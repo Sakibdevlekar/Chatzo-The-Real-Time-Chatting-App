@@ -36,7 +36,9 @@ const registerUser = asyncHandler(async (req, res, next) => {
 const loginUser = asyncHandler(async (req, res) => {
     const { username, password } = req.body;
 
-    const user = await User.findOne({ username: username }).select("+password");
+    const user = await User.findOne({
+        $or: [{ username: username }, { name: username }],
+    }).select("+password");
 
     if (!user) {
         throw new ApiError(404, "User not registerd");
