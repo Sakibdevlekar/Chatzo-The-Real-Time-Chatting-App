@@ -5,6 +5,7 @@ import {
   AlternateEmail as UserNameIcon,
   CalendarMonth as CalendarIcon,
 } from "@mui/icons-material";
+import {transformImage} from "../../lib/features"
 import { useSelector } from "react-redux";
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -12,7 +13,7 @@ const Profile = () => {
   return (
     <Stack spacing={"2rem"} direction={"column"} alignItems={"center"}>
       <Avatar
-        src={user?.data?.avatar?.url}
+        src={transformImage(user?.data?.avatar?.url)}
         sx={{
           width: 200,
           height: 200,
