@@ -21,8 +21,12 @@ const fileFormate = (url) => {
   return "file";
 };
 
-// eslint-disable-next-line no-unused-vars
-const transformImage = (url, width = 100) => url;
+
+const transformImage = (url = "", width = 3000) => {
+  const newUrl = url.replace("upload/", `upload/dpr_auto/w_${width}/`);
+
+  return newUrl;
+};
 
 const getLast7Days = () => {
   const currentDate = moment();
