@@ -39,6 +39,7 @@ function search() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [loading, setLoading] = useState(false);
   const addFriendHandler = async (id) => {
+    dispatch(setIsSearch(false));
     await sendFriendRequest("sending friend request...", { userId: id });
   };
   // eslint-disable-next-line react-hooks/rules-of-hooks
