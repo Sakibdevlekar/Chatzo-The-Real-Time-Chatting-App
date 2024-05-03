@@ -8,6 +8,7 @@ import { Loaders } from "./components/Layout/Loaders";
 import Dashboard from "./pages/Admin/Dashboard";
 import { server } from "./constant/config";
 import { Toaster } from "react-hot-toast";
+import { SocketProvider } from "./socket";
 const AdminLogin = lazy(() => import("./pages/Admin/AdminLogin"));
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -23,10 +24,11 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     axios
-      .get(`${server}/user/me`,{withCredentials: true,})
+      .get(`${server}/user/me`, { withCredentials: true })
       .then(({ data }) => dispatch(userExists(data)))
+      // eslint-disable-next-line no-unused-vars
       .catch((err) => dispatch(userNotExists()));
-  }, []);
+  }, [dispatch]);
 
   return loader ? (
     <Loaders />
@@ -35,7 +37,13 @@ function App() {
       <BrowserRouter>
         <Suspense fallback={<Loaders />}>
           <Routes>
-            <Route element={<ProtectRoute user={user} />}>
+            <Route
+              element={
+                <SocketProvider>
+                  <ProtectRoute user={user} />
+                </SocketProvider>
+              }
+            >
               <Route path="/" element={<Home />} />
               <Route path="/chat/:chatId" element={<Chat />} />
               <Route path="/groups" element={<Groups />} />
@@ -66,7 +74,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
-        <Toaster position="top-center"/>
+        <Toaster position="top-center" />
       </BrowserRouter>
     </>
   );

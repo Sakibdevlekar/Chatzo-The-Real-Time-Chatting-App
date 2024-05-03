@@ -8,10 +8,12 @@ import { useMyChatsQuery } from "../../redux/api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsMobile } from "../../redux/reducers/misc";
 import { useErrors } from "../../hooks/hook";
+import { getSocket } from "../../socket";
 
 const AppLayout = () => (WrappedComponent) => {
   // eslint-disable-next-line react/display-name
   return (props) => {
+    const socket = getSocket();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const params = useParams();
     // eslint-disable-next-line react-hooks/rules-of-hooks
