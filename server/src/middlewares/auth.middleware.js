@@ -31,25 +31,28 @@ const socketAuthenticator = async (err, socket, next) => {
     try {
         if (err) return next(err);
 
-        const authToken = socket.request.cookies[CHATTU_TOKEN];
-
+        const authToken = socket.request.cookies["chatzo-access-token"];
         if (!authToken)
-            throw new ApiError(401, "Please login to access this route");
-
-        const decodedData = jwt.verify(authToken, process.env.JWT_SECRET);
-
-        const user = await User.findById(decodedData._id);
-
-        if (!user)
-            throw (
-                (new ApiError(401, "Please login to access this route"),
-                (socket.user = user))
+            return next(
+                new ApiError(401, "Invalid token. Please login again."),
             );
 
+        const decodedData = jwt.verify(
+            authToken,
+            process.env.JWT_ACCESS_SECRET_KEY,
+        );
+
+        const user = await User.findById(decodedData.userId);
+
+        if (!user)
+            return next(
+                new ApiError(401, "User not found. Please login again."),
+            );
+        socket.user = user;
         return next();
     } catch (error) {
         console.log(error);
-        throw new ApiError(401, "Please login to access this route");
+        return next(new ApiError(401, "Authentication failed. Please login again."));
     }
 };
 

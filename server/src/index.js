@@ -7,6 +7,7 @@ import { v4 as uuid } from "uuid";
 import { connectDB } from "./configs/db.config.js";
 const port = process.env.PORT || 3000;
 const envMode = process.env.NODE_ENV?.trim() || "PRODUCTION";
+import cookieParser from "cookie-parser";
 import { getSockets } from "./lib/helper.lib.js";
 import { Message } from "./models/message.model.js";
 import {
@@ -22,6 +23,7 @@ import {
     CHAT_LEAVED,
     ONLINE_USERS,
 } from "./constant/event.constant.js";
+import { socketAuthenticator } from "./middlewares/auth.middleware.js";
 export const userSocketIDs = new Map();
 const onlineUsers = new Set();
 
