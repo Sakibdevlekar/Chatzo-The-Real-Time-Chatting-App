@@ -22,17 +22,16 @@ const MessageComponent = ({ message, user }) => {
         width: "fit-content",
       }}
     >
-      {!sameSender && (
+      {
         <Typography
-          color={colors.lightBlue}
+          color={!sameSender ? colors.lightBlue : colors.orange}
           fontWeight={"600"}
           flexWrap={"wrap"}
           variant="caption"
         >
-          {/*  eslint-disable-next-line react/prop-types */}
-          {sender?.name}
+          {!sameSender ? sender?.name : "You"}
         </Typography>
-      )}
+      }
       {content && <Typography>{content}</Typography>}
       {attachments.length > 0 &&
         attachments.map((attachment, index) => {

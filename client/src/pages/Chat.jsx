@@ -1,6 +1,6 @@
-import { IconButton, Tooltip, Stack } from "@mui/material";
+import { IconButton, Tooltip, Stack, Skeleton } from "@mui/material";
 import AppLayout from "../components/Layout/AppLayout";
-import { Fragment, useRef } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import colors from "../constant/color";
 import { InputBox } from "../components/Styles/StyledComponents";
 import {
@@ -10,15 +10,60 @@ import {
 import FileMenu from "../components/Dialogs/FileMenu";
 import { sampleMessage } from "../constant/SampleData";
 import MessageComponent from "../components/shared/MessageComponent";
-const user = {
-  _id:"wertyuio",
-  name:"lovely"
+import { getSocket } from "../socket";
+import { NEW_MESSAGE } from "../constant/event.js";
+import { useChatDetailsQuery, useGetMessagesQuery } from "../redux/api/api.js";
+import { useErrors, useSocketEvents } from "../hooks/hook.jsx";
+import { useSelector } from "react-redux";
 
-}
-
-function Chat() {
+// eslint-disable-next-line react-refresh/only-export-components, react/prop-types
+function Chat({ chatId }) {
+  const { user } = useSelector((state) => state.auth);
+  const socket = getSocket();
   const containerRef = useRef(null);
-  return (
+  const [message, setMessage] = useState();
+  const [messages, setMessages] = useState([]);
+  const [page, setPage] = useState(1);
+  const chatDetails = useChatDetailsQuery({ chatId, skip: !chatId });
+  const oldMessagesChunk = useGetMessagesQuery({ chatId, page });
+  console.log(oldMessagesChunk?.data?.data?.messages);
+  const errors = [
+    { isError: chatDetails.isError, error: chatDetails.error },
+    { isError: oldMessagesChunk.isError, error: oldMessagesChunk.error },
+  ];
+  // console.log(chatDetails?.data?.data?.members);
+  const members = chatDetails?.data?.data?.members;
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+
+    //Emitting message to the server
+    socket.emit(NEW_MESSAGE, { chatId, members, message });
+    setMessage("");
+  };
+
+  const newMessagesHandler = useCallback((data) => {
+    setMessages((prev) => [...prev, data?.message]);
+  }, []);
+
+  const eventHandler = { [NEW_MESSAGE]: newMessagesHandler };
+
+  useSocketEvents(socket, eventHandler);
+
+  useEffect(() => {
+    socket.on(NEW_MESSAGE, newMessagesHandler);
+    return () => {
+      socket.off(NEW_MESSAGE, newMessagesHandler);
+    };
+  }, []);
+  const oldMessages = oldMessagesChunk?.data?.data?.messages || [];
+  const AllMessages = [...oldMessages, ...messages];
+  console.log(AllMessages);
+  useErrors(errors);
+  return chatDetails.isLoading ? (
+    <Skeleton />
+  ) : (
     <Fragment>
       <Stack
         ref={containerRef}
@@ -32,15 +77,15 @@ function Chat() {
           overflowY: "auto",
         }}
       >
-        {sampleMessage.map((message,index)=>(
-          <MessageComponent key={index} message={message} user={user}/>
+        {AllMessages.map((message, index) => (
+          <MessageComponent key={index} message={message} user={user.data} />
         ))}
-
       </Stack>
       <form
         style={{
           height: "10%",
         }}
+        onSubmit={sendMessage}
       >
         <Stack
           direction={"row"}
@@ -61,7 +106,11 @@ function Chat() {
             </IconButton>
           </Tooltip>
 
-          <InputBox placeholder="Type message here..." />
+          <InputBox
+            placeholder="Type message here..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
 
           <Tooltip title={"Send"}>
             <IconButton
@@ -86,4 +135,5 @@ function Chat() {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default AppLayout()(Chat);

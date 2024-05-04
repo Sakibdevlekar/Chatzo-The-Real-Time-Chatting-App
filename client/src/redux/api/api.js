@@ -46,7 +46,7 @@ const api = createApi({
 
     getMessages: builder.query({
       query: ({ chatId, page }) => ({
-        url: `chat/message/${chatId}?page=${page}`,
+        url: `chat/messages/${chatId}?page=${page}`,
         credentials: "include",
       }),
       keepUnusedDataFor: 0,
