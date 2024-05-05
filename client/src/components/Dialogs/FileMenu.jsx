@@ -45,15 +45,20 @@ const FileMenu = ({ anchorE1, chatId }) => {
       myFrom.append("chatId", chatId),
         files.forEach((file) => myFrom.append("files", file));
       const res = await sendAttachments(myFrom);
-      console.log(res?.data?.statusCode);
+      console.log(res?.data?.statusCode, res.error?.data?.message);
       if (res?.data?.statusCode == 200)
         toast.success(res?.data?.message || "Image send successfully", {
           id: tostId,
         });
       else
-        toast.error(res?.data?.message || "Something went wrong", {
-          id: tostId,
-        });
+        toast.error(
+          res?.data?.message ||
+            res.error?.data?.message ||
+            "Something went wrong",
+          {
+            id: tostId,
+          }
+        );
     } catch (error) {
       toast.error(error, { id: tostId });
     } finally {
