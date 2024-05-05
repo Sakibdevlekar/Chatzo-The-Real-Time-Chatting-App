@@ -67,6 +67,29 @@ io.on("connection", (socket) => {
             throw new Error(error);
         }
     });
+    socket.on(START_TYPING, ({ members, chatId }) => {
+        const membersSockets = getSockets(members);
+        socket.to(membersSockets).emit(START_TYPING, { chatId });
+    });
+
+    socket.on(STOP_TYPING, ({ members, chatId }) => {
+        const membersSockets = getSockets(members);
+        socket.to(membersSockets).emit(STOP_TYPING, { chatId });
+    });
+
+    socket.on(CHAT_JOINED, ({ userId, members }) => {
+        onlineUsers.add(userId.toString());
+
+        const membersSocket = getSockets(members);
+        io.to(membersSocket).emit(ONLINE_USERS, Array.from(onlineUsers));
+    });
+
+    socket.on(CHAT_LEAVED, ({ userId, members }) => {
+        onlineUsers.delete(userId.toString());
+
+        const membersSocket = getSockets(members);
+        io.to(membersSocket).emit(ONLINE_USERS, Array.from(onlineUsers));
+    });
 
     socket.on("disconnect", () => {
         userSocketIDs.delete(user._id.toString());

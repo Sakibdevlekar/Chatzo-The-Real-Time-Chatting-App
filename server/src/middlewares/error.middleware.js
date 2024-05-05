@@ -14,6 +14,7 @@ import mongoose from "mongoose";
  */
 const errorHandler = (err, req, res, next) => {
     let error = err;
+    console.log(error);
 
     // Check if the error is an instance of an ApiError class which extends native Error class
     if (!(error instanceof ApiError)) {
@@ -28,6 +29,11 @@ const errorHandler = (err, req, res, next) => {
         if (err.code === 11000) {
             const error = Object.keys(err.keyPattern).join(",");
             err.message = `Duplicate field - ${error}`;
+            err.statusCode = 400;
+        }
+        if (err.name === "CastError") {
+            const errorPath = err.path;
+            err.message = `Invalid Format of ${errorPath}`;
             err.statusCode = 400;
         }
 

@@ -120,7 +120,6 @@ const getMyGroups = asyncHandler(async (req, res, next) => {
         name,
         avatar: members.slice(0, 3).map(({ avatar }) => avatar.url),
     }));
-
     return res
         .status(200)
         .json(new ApiResponse(200, groups, "Groups retrieved successfully"));
@@ -394,7 +393,7 @@ const sendAttachments = asyncHandler(async (req, res, next) => {
  */
 const getChatDetails = asyncHandler(async (req, res, next) => {
     // Check if the query parameter 'populate' is set to 1 for population
-    if (req.query.populate === "1") {
+    if (req.query.populate === "true") {
         // Find the chat by its ID and populate member details
         const chat = await Chat.findById(req.params.id)
             .populate("members", "name avatar")

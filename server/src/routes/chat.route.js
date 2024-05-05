@@ -35,6 +35,10 @@ router.post("/message", attachmentsMulter, sendAttachments);
 
 router.get("/messages/:id", getMessages);
 
-router.get("/:id", getChatDetails).put(renameGroup).delete(deleteChat);
+router.get("/:id", getChatDetails);
+
+router.put("/:id", renameGroup);
+
+router.delete("/:id", deleteChat);
 
 export { router as chatRoutes };

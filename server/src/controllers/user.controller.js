@@ -293,6 +293,8 @@ const getMyFriends = asyncHandler(async (req, res) => {
         groupChat: false,
     }).populate("members", "name avatar");
 
+
+
     // Extract friends from chats, including necessary details
     const friends = chats.map(({ members }) => {
         const otherUser = getOtherMember(members, req.user);
@@ -304,10 +306,11 @@ const getMyFriends = asyncHandler(async (req, res) => {
         };
     });
 
+    
     // If chatId is provided, filter friends based on available members in the chat
     if (chatId) {
         const chat = await Chat.findById(chatId);
-
+        
         const availableFriends = friends.filter(
             (friend) => !chat.members.includes(friend._id),
         );

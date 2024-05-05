@@ -37,6 +37,12 @@ app.use(`${BASE_URL}/admin`, adminRoutes);
 app.use(`${BASE_URL}/user`, userRoutes);
 app.use(`${BASE_URL}/chat`, chatRoutes);
 
+app.all("*", (req, res, next) => {
+    res.status(404).json({
+        message: "Not found",
+    });
+});
+
 app.use(errorHandler);
 
 export { app, io, server };
