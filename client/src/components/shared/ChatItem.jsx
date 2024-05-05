@@ -40,7 +40,7 @@ const ChatItem = ({
         // transition={{ delay: 0.1 * index }}
         style={{
           display: "flex",
-          gap: "1rem",
+          gap: "5rem",
           alignItems: "center",
           backgroundColor: sameSender ? "black" : "unset",
           color: sameSender ? "white" : "unset",

@@ -7,24 +7,49 @@ import Profile from "../specific/Profile";
 import { useMyChatsQuery } from "../../redux/api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsMobile } from "../../redux/reducers/misc";
-import { useErrors } from "../../hooks/hook";
+import { useErrors, useSocketEvents } from "../../hooks/hook";
 import { getSocket } from "../../socket";
+import {
+  NEW_MESSAGE,
+  NEW_MESSAGE_ALERT,
+  NEW_REQUEST,
+  REFETCH_CHATS,
+} from "../../constant/event";
+import { useCallback, useEffect, useState } from "react";
+import {
+  incrementNotification,
+  setNewMessagesAlert,
+} from "../../redux/reducers/chat";
+import { getOrSaveFromStorage } from "../../lib/features";
 
 const AppLayout = () => (WrappedComponent) => {
   // eslint-disable-next-line react/display-name
   return (props) => {
-    const socket = getSocket();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const params = useParams();
+    const socket = getSocket();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const dispatch = useDispatch();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // const [chatId, setChatId] = useState(params.chatId);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // useEffect(() => {
+    //   setChatId(params.chatId);
+    // }, [params.chatId]);
     const chatId = params.chatId;
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { isMobile } = useSelector((state) => state.misc);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { isLoading, data, isError, error } = useMyChatsQuery("");
+    const { newMessagesAlert } = useSelector((state) => state.chat);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useErrors([{ isError, error }]);
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      getOrSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessagesAlert });
+    }, [newMessagesAlert]);
 
     const handelMobileClose = () => {
       dispatch(setIsMobile(false));
@@ -33,6 +58,35 @@ const AppLayout = () => (WrappedComponent) => {
       e.preventDefault();
       console.log("Delete chat", _id, groupChat);
     };
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const newMessageAlertListener = useCallback(
+      (data) => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+
+        if (data.chatId === params.chatId) return;
+
+        dispatch(setNewMessagesAlert(data));
+      },
+      [chatId, dispatch]
+    );
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const newRequestHandler = useCallback(() => {
+      dispatch(incrementNotification());
+    }, [dispatch]);
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const refetchListener = useCallback(() => {
+      refetch();
+    }, [refetch]);
+    const eventHandlers = {
+      [NEW_MESSAGE_ALERT]: newMessageAlertListener,
+      [NEW_REQUEST]: newRequestHandler,
+      [REFETCH_CHATS]: refetchListener,
+    };
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useSocketEvents(socket, eventHandlers);
 
     return (
       <>
@@ -73,12 +127,7 @@ const AppLayout = () => (WrappedComponent) => {
               <ChatList
                 chats={data?.data?.chats}
                 chatId={chatId}
-                newMessagesAlert={[
-                  {
-                    chatId,
-                    count: 4,
-                  },
-                ]}
+                newMessagesAlert={newMessagesAlert}
                 onlineUsers={[1, 2]}
                 handleDeleteChat={handleDeleteChat}
               />
@@ -93,7 +142,7 @@ const AppLayout = () => (WrappedComponent) => {
             height={"100%"}
             // bgcolor={"primary.main"}
           >
-            <WrappedComponent {...props} chatId={chatId}  />
+            <WrappedComponent {...props} chatId={chatId} />
           </Grid>
           <Grid
             item

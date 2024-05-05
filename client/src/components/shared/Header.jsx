@@ -9,6 +9,7 @@ import {
 import {
   AppBar,
   Backdrop,
+  Badge,
   Box,
   IconButton,
   Toolbar,
@@ -25,9 +26,11 @@ import { server } from "../../constant/config";
 import { userNotExists } from "../../redux/reducers/auth.reducer";
 import {
   setIsMobile,
+  setIsNewGroup,
   setIsNotification,
   setIsSearch,
 } from "../../redux/reducers/misc";
+import { resetNotificationCount } from "../../redux/reducers/chat";
 const SearchDialog = lazy(() => import("../specific/Search"));
 const Notification = lazy(() => import("../specific/Notification"));
 const NewGroup = lazy(() => import("../specific/NewGroup"));
@@ -35,9 +38,10 @@ const NewGroup = lazy(() => import("../specific/NewGroup"));
 function Header() {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const { isSearch, isNotification } = useSelector((state) => state.misc);
-
-  const [isNewGroup, setIsNewGroup] = useState(false);
+  const { isSearch, isNotification, isNewGroup } = useSelector(
+    (state) => state.misc
+  );
+  const { notificationCount } = useSelector((state) => state.chat);
 
   const handelMobile = () => {
     dispatch(setIsMobile(true));
@@ -47,7 +51,7 @@ function Header() {
   };
 
   const openNewGroup = () => {
-    setIsNewGroup((prev) => !prev);
+    dispatch(setIsNewGroup(true));
   };
 
   const navigateToGroups = () => {
@@ -56,6 +60,7 @@ function Header() {
 
   const handelNotificationOpen = () => {
     dispatch(setIsNotification(true));
+    dispatch(resetNotificationCount());
   };
 
   const LogoutHandler = async () => {
@@ -126,6 +131,7 @@ function Header() {
                 title={"Notifications"}
                 icon={<NotificationsIcon />}
                 onClick={handelNotificationOpen}
+                value={notificationCount}
               />
               <IconBtn
                 title={"Logout"}
@@ -156,10 +162,11 @@ function Header() {
 }
 
 // eslint-disable-next-line react/prop-types
-const IconBtn = ({ title, icon, onClick }) => {
+const IconBtn = ({ title, icon, onClick, value }) => {
   return (
     <Tooltip title={title}>
       <IconButton color="inherit" size="large" onClick={onClick}>
+        {value ? <Badge badgeContent={value} color="error"></Badge> : null}
         {icon}
       </IconButton>
     </Tooltip>

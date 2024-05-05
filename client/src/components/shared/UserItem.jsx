@@ -28,7 +28,7 @@ const UserItem = ({
         padding={"1rem"}
         {...styling}
       >
-        <Avatar src={transformImage(avatar)} />
+        <Avatar src={transformImage(avatar,1000)} />
         <Typography
           variant="body1"
           sx={{

@@ -1,6 +1,7 @@
-import { Grid, Skeleton, Stack } from "@mui/material";
+import { Grid, Skeleton, Stack, Typography } from "@mui/material";
+import { BouncingSkeleton } from "../Styles/StyledComponents";
 
-export const Loaders = () => {
+const Loaders = () => {
   return (
     <Grid container height={"calc(100vh - 4rem)"} spacing={"1rem"}>
       <Grid
@@ -35,3 +36,50 @@ export const Loaders = () => {
     </Grid>
   );
 };
+
+const TypingLoader = () => {
+  return (
+    <Stack
+      spacing={"0.5rem"}
+      direction={"row"}
+      marginBottom={"5rem"}
+      justifyContent={"center"}
+      bottom={"10rem"}
+    >
+      <BouncingSkeleton
+        variant="circular"
+        width={15}
+        height={15}
+        style={{
+          animationDelay: "0.1s",
+        }}
+      />
+      <BouncingSkeleton
+        variant="circular"
+        width={15}
+        height={15}
+        style={{
+          animationDelay: "0.2s",
+        }}
+      />
+      <BouncingSkeleton
+        variant="circular"
+        width={15}
+        height={15}
+        style={{
+          animationDelay: "0.4s",
+        }}
+      />
+      <BouncingSkeleton
+        variant="circular"
+        width={15}
+        height={15}
+        style={{
+          animationDelay: "0.6s",
+        }}
+      />
+    </Stack>
+  );
+};
+
+export { Loaders, TypingLoader };

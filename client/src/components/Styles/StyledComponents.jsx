@@ -1,6 +1,5 @@
 import { Link as LinkComponent } from "react-router-dom";
-
-import { styled } from "@mui/material";
+import { Skeleton, keyframes, styled } from "@mui/material";
 import colors from "../../constant/color";
 
 const VisualHiddenInput = styled("input")({
@@ -44,18 +43,33 @@ const SearchFiled = styled("input")`
 `;
 
 const CurveButton = styled("button")`
-border-radius: 1.5rem;
-padding: 1rem 2rem;
-border: none;
-outline: none;
-cursor: pointer;
-background-color: ${colors.matBlack};
-color: white;
-font-size: 1.1rem;
-&:hover{
-  background-color:rgba(0,0,0,0.8)
-}
-
+  border-radius: 1.5rem;
+  padding: 1rem 2rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: ${colors.matBlack};
+  color: white;
+  font-size: 1.1rem;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
 `;
 
-export { Link, InputBox, VisualHiddenInput, SearchFiled, CurveButton };
+const bounceAnimation = keyframes`
+0% { transform: scale(1); }
+50% { transform: scale(1.5); }
+100% { transform: scale(1); }
+`;
+
+const BouncingSkeleton = styled(Skeleton)(() => ({
+  animation: `${bounceAnimation} 1s infinite`,
+}));
+export {
+  Link,
+  InputBox,
+  VisualHiddenInput,
+  SearchFiled,
+  CurveButton,
+  BouncingSkeleton,
+};

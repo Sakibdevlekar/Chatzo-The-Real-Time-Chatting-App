@@ -63,8 +63,8 @@ const api = createApi({
     availableFriends: builder.query({
       query: (chatId) => {
         let url = `user/friends`;
+        console.log(chatId);
         if (chatId) url += `?chatId=${chatId}`;
-
         return {
           url,
           credentials: "include",
@@ -124,7 +124,7 @@ const api = createApi({
 
     removeGroupMember: builder.mutation({
       query: ({ chatId, userId }) => ({
-        url: `chat/removemember`,
+        url: `chat/remove/member`,
         method: "PUT",
         credentials: "include",
         body: { chatId, userId },
@@ -134,7 +134,7 @@ const api = createApi({
 
     addGroupMembers: builder.mutation({
       query: ({ members, chatId }) => ({
-        url: `chat/addmembers`,
+        url: `chat/add/members`,
         method: "PUT",
         credentials: "include",
         body: { members, chatId },
