@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 
+
 const ConfirmDeleteDialog = ({ open, handleClose, deleteHandler }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -17,8 +18,10 @@ const ConfirmDeleteDialog = ({ open, handleClose, deleteHandler }) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="error">Yes</Button>
         <Button onClick={handleClose}>No</Button>
+        <Button onClick={deleteHandler} color="error">
+          Yes
+        </Button>
       </DialogActions>
     </Dialog>
   );
