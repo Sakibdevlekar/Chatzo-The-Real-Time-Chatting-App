@@ -105,8 +105,8 @@ function Login() {
   return (
     <div
       style={{
-        background:
-          "-webkit-linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E)" /* Chrome 10-25, Safari 5.1-6 */,
+        backgroundImage:
+          "linear-gradient(to right top, #ea7070, #e97393, #de7db3, #c98acd, #ad98de, #ad98de, #ad98de, #ad98de, #c98acd, #de7db3, #e97393, #ea7070)",
       }}
     >
       <Container
@@ -180,9 +180,14 @@ function Login() {
                   </Typography>
                 )} */}
                 <Button
-                  sx={{ marginTop: "1rem" }}
+                  sx={{
+                    marginTop: "1rem",
+                    backgroundColor: "#FF8878",
+                    ":hover": { bgcolor: "#FF7E81" },
+                  }}
                   variant="contained"
-                  color="primary"
+                  // color="#ea7070"
+
                   type="submit"
                   fullWidth
                 >
@@ -309,7 +314,11 @@ function Login() {
                   </Typography>
                 )}
                 <Button
-                  sx={{ marginTop: "1rem" }}
+                  sx={{
+                    marginTop: "1rem",
+                    backgroundColor: "#ea7070",
+                    ":hover": { bgcolor: "#FF6D6D" },
+                  }}
                   variant="contained"
                   color="primary"
                   type="submit"
