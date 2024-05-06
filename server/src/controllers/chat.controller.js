@@ -527,7 +527,7 @@ const deleteChat = asyncHandler(async (req, res, next) => {
 
     // Delete files from cloud storage, chat document, and associated messages
     await Promise.all([
-        deleteFilesFromCloudinary(public_ids),
+        // deleteFilesFromCloudinary(public_ids), //TODO: make this function
         chat.deleteOne(),
         Message.deleteMany({ chat: chatId }),
     ]);
@@ -538,7 +538,7 @@ const deleteChat = asyncHandler(async (req, res, next) => {
     // Send a success response
     return res
         .status(200)
-        .json(new ApiResponse(200, "Chat deleted successfully"));
+        .json(new ApiResponse(200, null, "Chat deleted successfully"));
 });
 
 /**
