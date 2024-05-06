@@ -25,11 +25,13 @@ import { useInfiniteScrollTop } from "6pp";
 import { setIsFileMenu } from "../redux/reducers/misc.js";
 import { removeNewMessagesAlert } from "../redux/reducers/chat.js";
 import { TypingLoader } from "../components/Layout/Loaders.jsx";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react-refresh/only-export-components, react/prop-types
 function Chat({ chatId }) {
   const socket = getSocket();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const containerRef = useRef(null);
 
@@ -62,7 +64,33 @@ function Chat({ chatId }) {
   ];
   // console.log(chatDetails?.data?.data?.members);
   const members = chatDetails?.data?.data?.members;
+  useEffect(() => {
+    if (!chatDetails?.data?.data) return navigate("/");
+  }, [chatDetails?.data?.data]);
+  const newMessagesHandler = useCallback(
+    (data) => {
+      if (data.chatId !== chatId) return;
+      setMessages((prev) => [...prev, data?.message]);
+    },
+    [chatId]
+  );
+  const alertListener = useCallback(
+    (data) => {
+      if (data.chatId !== chatId) return;
+      const messageForAlert = {
+        content: data.message,
+        sender: {
+          _id: "djasdhajksdhasdsadasdas",
+          name: "Admin",
+        },
+        chat: chatId,
+        createdAt: new Date().toISOString(),
+      };
 
+      setMessages((prev) => [...prev, messageForAlert]);
+    },
+    [chatId]
+  );
   const messageOnChange = (e) => {
     setMessage(e.target.value);
 
@@ -126,35 +154,9 @@ function Chat({ chatId }) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const newMessagesHandler = useCallback(
-    (data) => {
-      if (data.chatId !== chatId) return;
-      setMessages((prev) => [...prev, data?.message]);
-    },
-    [chatId]
-  );
-
-  const alertListener = useCallback(
-    (data) => {
-      if (data.chatId !== chatId) return;
-      const messageForAlert = {
-        content: data.message,
-        sender: {
-          _id: "djasdhajksdhasdsadasdas",
-          name: "Admin",
-        },
-        chat: chatId,
-        createdAt: new Date().toISOString(),
-      };
-
-      setMessages((prev) => [...prev, messageForAlert]);
-    },
-    [chatId]
-  );
-
   const eventHandler = {
     [ALERT]: alertListener,
-    // [NEW_MESSAGE]: newMessagesListener,
+    [NEW_MESSAGE]: newMessagesHandler,
     [START_TYPING]: startTypingListener,
     [STOP_TYPING]: stopTypingListener,
   };

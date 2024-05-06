@@ -1,6 +1,6 @@
+import { Box, Stack, Typography } from "@mui/material";
 import { memo } from "react";
 import { Link } from "../Styles/StyledComponents";
-import { Box, Stack, Typography } from "@mui/material";
 import AvatarCard from "./AvatarCard";
 // import AvatarCard from "./AvatarCard";
 // import { motion } from "framer-motion";

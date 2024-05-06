@@ -8,6 +8,7 @@ import {
   Backdrop,
   Box,
   Button,
+  CircularProgress,
   Drawer,
   Grid,
   IconButton,
@@ -31,16 +32,16 @@ const AddMemberDialog = lazy(() =>
   import("../components/Dialogs/AddMemberDialog")
 );
 
+import { useDispatch, useSelector } from "react-redux";
 import { Loaders as LayoutLoader } from "../components/Layout/Loaders";
 import { useAsyncMutation, useErrors } from "../hooks/hook";
 import {
-  useAddGroupMembersMutation,
   useChatDetailsQuery,
+  useDeleteChatMutation,
   useMyGroupsQuery,
   useRemoveGroupMemberMutation,
   useRenameGroupMutation,
 } from "../redux/api/api";
-import { useDispatch, useSelector } from "react-redux";
 import { setIsAddMember } from "../redux/reducers/misc";
 
 function Groups() {
@@ -58,9 +59,13 @@ function Groups() {
     useRemoveGroupMemberMutation
   );
 
+  const [deleteGroup, isLoadingDeleteGroup] = useAsyncMutation(
+    useDeleteChatMutation
+  );
+
+  const chatId = useSearchParams()[0].get("group");
   const [isEdit, setIsEdit] = useState(false);
   const [members, setMembers] = useState([]);
-  const chatId = useSearchParams()[0].get("group");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -76,20 +81,6 @@ function Groups() {
   ];
   useErrors(errors);
 
-  useEffect(() => {
-    if (groupDetails?.data?.data) {
-      setGroupName(groupDetails?.data?.data.name);
-      setGroupNameUpdatedValue(groupDetails?.data?.data.name);
-      setMembers(groupDetails?.data?.data?.members);
-    }
-
-    return () => {
-      setGroupName("");
-      setGroupNameUpdatedValue("");
-      setMembers([]);
-      setIsEdit(false);
-    };
-  }, [groupDetails]);
 
   const navigateBack = () => {
     navigate("/");
@@ -106,18 +97,6 @@ function Groups() {
       name: GroupNameUpdatedValue,
     });
   };
-  useEffect(() => {
-    if (chatId) {
-      setGroupName(`Group Name: ${chatId}`);
-      setGroupNameUpdatedValue(`Group Name: ${chatId}`);
-    }
-
-    return () => {
-      setGroupName("");
-      setGroupNameUpdatedValue("");
-      setIsEdit(false);
-    };
-  }, [chatId]);
 
   const removeMemberHandler = (userId) => {
     removeMember("Removing Member...", { chatId, userId });
@@ -134,7 +113,26 @@ function Groups() {
   const closeConfirmDeleteHandler = () => {
     setConfirmDeleteDialog(false);
   };
-  const deleteHandler = () => {};
+  const deleteHandler = () => {
+    deleteGroup("Deleting Group...", chatId);
+    navigate("/groups");
+    closeConfirmDeleteHandler();
+  };
+  
+  useEffect(() => {
+    if (groupDetails?.data?.data) {
+      setGroupName(groupDetails?.data?.data.name);
+      setGroupNameUpdatedValue(groupDetails?.data?.data.name);
+      setMembers(groupDetails?.data?.data?.members);
+    }
+
+    return () => {
+      setGroupName("");
+      setGroupNameUpdatedValue("");
+      setMembers([]);
+      setIsEdit(false);
+    };
+  }, [groupDetails?.data?.data, myGroups]);
 
   const IconBtn = (
     <>
@@ -300,19 +298,23 @@ function Groups() {
               height={"50vh"}
               overflow={"auto"}
             >
-              {members.map((user, index) => (
-                <UserItem
-                  key={index}
-                  user={user}
-                  isAdded
-                  styling={{
-                    boxShadow: "0 0 0.5rem rgba(0,0,0,0.2)",
-                    padding: "1rem 2rem",
-                    borderRadius: "1rem",
-                  }}
-                  handler={removeMemberHandler}
-                />
-              ))}
+              {isLoadingRemoveMember ? (
+                <CircularProgress />
+              ) : (
+                members.map((user, index) => (
+                  <UserItem
+                    key={index}
+                    user={user}
+                    isAdded
+                    styling={{
+                      boxShadow: "0 0 0.5rem rgba(0,0,0,0.2)",
+                      padding: "1rem 2rem",
+                      borderRadius: "1rem",
+                    }}
+                    handler={removeMemberHandler}
+                  />
+                ))
+              )}
             </Stack>
             {ButtonGroup}
           </>

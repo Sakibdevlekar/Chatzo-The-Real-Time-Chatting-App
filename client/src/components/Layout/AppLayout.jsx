@@ -2,11 +2,15 @@ import Title from "../shared/Title";
 import Header from "../shared/Header";
 import { Drawer, Grid, Skeleton } from "@mui/material";
 import ChatList from "../specific/ChatList";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Profile from "../specific/Profile";
 import { useMyChatsQuery } from "../../redux/api/api";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsMobile } from "../../redux/reducers/misc";
+import {
+  setIsDeleteMenu,
+  setIsMobile,
+  setSelectedDeleteChat,
+} from "../../redux/reducers/misc";
 import { useErrors, useSocketEvents } from "../../hooks/hook";
 import { getSocket } from "../../socket";
 import {
@@ -15,12 +19,13 @@ import {
   NEW_REQUEST,
   REFETCH_CHATS,
 } from "../../constant/event";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   incrementNotification,
   setNewMessagesAlert,
 } from "../../redux/reducers/chat";
 import { getOrSaveFromStorage } from "../../lib/features";
+import DeleteChatMenu from "../Dialogs/DeleteChatMenu";
 
 const AppLayout = () => (WrappedComponent) => {
   // eslint-disable-next-line react/display-name
@@ -29,13 +34,11 @@ const AppLayout = () => (WrappedComponent) => {
     const params = useParams();
     const socket = getSocket();
     // eslint-disable-next-line react-hooks/rules-of-hooks
+    const navigate = useNavigate();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const dispatch = useDispatch();
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    // const [chatId, setChatId] = useState(params.chatId);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    // useEffect(() => {
-    //   setChatId(params.chatId);
-    // }, [params.chatId]);
+    const deleteMenuAnchor = useRef(null);
     const chatId = params.chatId;
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { isMobile } = useSelector((state) => state.misc);
@@ -45,20 +48,14 @@ const AppLayout = () => (WrappedComponent) => {
     const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useErrors([{ isError, error }]);
-
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const newRequestHandler = useCallback(() => {
+      dispatch(incrementNotification());
+    }, [dispatch]);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       getOrSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessagesAlert });
     }, [newMessagesAlert]);
-
-    const handelMobileClose = () => {
-      dispatch(setIsMobile(false));
-    };
-    const handleDeleteChat = (e, _id, groupChat) => {
-      e.preventDefault();
-      console.log("Delete chat", _id, groupChat);
-    };
-
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const newMessageAlertListener = useCallback(
       (data) => {
@@ -70,15 +67,22 @@ const AppLayout = () => (WrappedComponent) => {
       },
       [chatId, dispatch]
     );
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const newRequestHandler = useCallback(() => {
-      dispatch(incrementNotification());
-    }, [dispatch]);
+
+    const handelMobileClose = () => {
+      dispatch(setIsMobile(false));
+    };
+    const handleDeleteChat = (e, chatId, groupChat) => {
+      e.preventDefault();
+      dispatch(setIsDeleteMenu(true));
+      dispatch(setSelectedDeleteChat({ chatId, groupChat }));
+      deleteMenuAnchor.current = e.currentTarget;
+    };
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const refetchListener = useCallback(() => {
       refetch();
-    }, [refetch]);
+      navigate("/");
+    }, [refetch, navigate]);
     const eventHandlers = {
       [NEW_MESSAGE_ALERT]: newMessageAlertListener,
       [NEW_REQUEST]: newRequestHandler,
@@ -92,6 +96,10 @@ const AppLayout = () => (WrappedComponent) => {
       <>
         <Title />
         <Header />
+        <DeleteChatMenu
+          dispatch={dispatch}
+          deleteMenuAnchor={deleteMenuAnchor}
+        />
         {isLoading ? (
           <Skeleton />
         ) : (
