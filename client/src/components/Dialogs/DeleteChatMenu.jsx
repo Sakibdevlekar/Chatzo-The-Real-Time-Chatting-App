@@ -4,7 +4,10 @@ import { setIsDeleteMenu } from "../../redux/reducers/misc";
 import { Delete, ExitToApp } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAsyncMutation } from "../../hooks/hook";
-import { useDeleteChatMutation } from "../../redux/api/api";
+import {
+  useDeleteChatMutation,
+  useLeaveGroupMutation,
+} from "../../redux/api/api";
 import { useEffect } from "react";
 
 // eslint-disable-next-line react/prop-types
@@ -17,22 +20,30 @@ const DeleteChatMenu = ({ dispatch, deleteMenuAnchor }) => {
     useDeleteChatMutation
   );
 
+  const [leaveGroup, __, leaveGroupData] = useAsyncMutation(
+    useLeaveGroupMutation
+  );
+
   const closeHandler = () => {
     dispatch(setIsDeleteMenu(false));
+    // eslint-disable-next-line react/prop-types
     deleteMenuAnchor.current = null;
   };
 
-  const leaveGroupHandler = () => {};
+  const leaveGroupHandler = () => {
+    closeHandler();
+    leaveGroup("Leaving Group...", selectedDeleteChat.chatId);
+  };
   const unFriendHandler = () => {
     closeHandler();
     deleteChat("Deleting Chat...", selectedDeleteChat.chatId);
   };
 
   useEffect(() => {
-    if (deleteChatData) {
+    if (deleteChatData || leaveGroupData) {
       navigate("/");
     }
-  }, [deleteChatData]);
+  }, [deleteChatData, leaveGroupData]);
 
   return (
     <Menu

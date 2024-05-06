@@ -153,8 +153,8 @@ const api = createApi({
 
     leaveGroup: builder.mutation({
       query: (chatId) => ({
-        url: `chat/leave/${chatId}`,
-        method: "DELETE",
+        url: `chat/leave-group/${chatId}`,
+        method: "PUT",
         credentials: "include",
       }),
       invalidatesTags: ["Chat"],
