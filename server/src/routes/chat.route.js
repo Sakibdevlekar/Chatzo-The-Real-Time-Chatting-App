@@ -27,9 +27,9 @@ router.get("/my/groups", getMyGroups);
 
 router.put("/add/members", addMembers);
 
-router.put("/remove/member", removeMember);
+router.delete("/remove/member", removeMember);
 
-router.put("/leave/:id", leaveGroup);
+router.put("/leave-group/:id", leaveGroup);
 
 router.post("/message", attachmentsMulter, sendAttachments);
 

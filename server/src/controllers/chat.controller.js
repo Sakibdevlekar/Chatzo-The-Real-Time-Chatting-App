@@ -202,6 +202,7 @@ const addMembers = asyncHandler(async (req, res, next) => {
  * @description Removes a member from a group chat.
  */
 const removeMember = asyncHandler(async (req, res, next) => {
+  
     // Extract userId and chatId from the request body
     const { userId, chatId } = req.body;
 
