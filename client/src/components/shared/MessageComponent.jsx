@@ -5,6 +5,7 @@ import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { fileFormate } from "../../lib/features";
 import RenderAttachment from "./RenderAttachment";
+import { motion } from "framer-motion";
 
 // eslint-disable-next-line react/prop-types
 const MessageComponent = ({ message, user }) => {
@@ -12,7 +13,9 @@ const MessageComponent = ({ message, user }) => {
   const sameSender = sender?._id === user?._id;
   const timeAgo = moment(createdAt).fromNow();
   return (
-    <div
+    <motion.div
+    initial={{ opacity: 0,x:"-100%" }}
+    whileInView={{ opacity: 1,x:0 }}
       style={{
         alignSelf: sameSender ? "flex-end" : "flex-start",
         background: colors.light,
@@ -55,7 +58,7 @@ const MessageComponent = ({ message, user }) => {
       <Typography variant="caption" color={colors.darkGray} fontWeight={"700"}>
         {timeAgo}
       </Typography>
-    </div>
+    </motion.div>
   );
 };
 

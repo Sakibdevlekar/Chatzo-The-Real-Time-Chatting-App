@@ -65,8 +65,8 @@ function Chat({ chatId }) {
   // console.log(chatDetails?.data?.data?.members);
   const members = chatDetails?.data?.data?.members;
   useEffect(() => {
-    if (!chatDetails?.data?.data) return navigate("/");
-  }, [chatDetails?.data?.data]);
+    if (chatDetails.isError) return navigate("/");
+  }, [chatDetails.isError]);
   const newMessagesHandler = useCallback(
     (data) => {
       if (data.chatId !== chatId) return;

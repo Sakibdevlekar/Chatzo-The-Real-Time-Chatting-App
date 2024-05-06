@@ -2,8 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { memo } from "react";
 import { Link } from "../Styles/StyledComponents";
 import AvatarCard from "./AvatarCard";
-// import AvatarCard from "./AvatarCard";
-// import { motion } from "framer-motion";
+import { motion } from "framer-motion"; 
 
 const ChatItem = ({
   // eslint-disable-next-line react/prop-types, no-unused-vars
@@ -34,10 +33,10 @@ const ChatItem = ({
       to={`/chat/${_id}`}
       onContextMenu={(e) => handleDeleteChat(e, _id, groupChat)}
     >
-      <div
-        // initial={{ opacity: 0, y: "-100%" }}
-        // whileInView={{ opacity: 1, y: 0 }}
-        // transition={{ delay: 0.1 * index }}
+      <motion.div
+        initial={{ opacity: 0, y: "-100%" }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 * index }}
         style={{
           display: "flex",
           gap: "5rem",
@@ -72,7 +71,7 @@ const ChatItem = ({
             }}
           />
         )}
-      </div>
+      </motion.div>
     </Link>
   );
 };
