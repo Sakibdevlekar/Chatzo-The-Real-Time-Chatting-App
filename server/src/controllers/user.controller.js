@@ -49,7 +49,7 @@ const loginUser = asyncHandler(async (req, res) => {
     if (!isPasswordValid) {
         throw new ApiError(401, "Invalid user credentials");
     }
-    sendToken(res, user._id, 200, `Welcome Back, ${user.name}`);
+    sendToken(res, user, 200, `Welcome Back, ${user.name}`);
 });
 
 /**
