@@ -13,6 +13,7 @@ import {
   styled,
 } from "@mui/material";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link as LikeComponent, Navigate, useLocation } from "react-router-dom";
 import { adminTabs } from "../../pages/Admin/AdminTabs";
 
@@ -70,9 +71,9 @@ const SideBar = ({ w = "100%" }) => {
   );
 };
 
-const isAdmin = true;
 // eslint-disable-next-line react/prop-types
 const AdminLayout = ({ children }) => {
+  const {isAdmin} = useSelector((state)=> state.auth)
   const [isMobile, setIsMobile] = useState(false);
 
   const handleMobileView = () => setIsMobile(!isMobile);
