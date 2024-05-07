@@ -13,9 +13,10 @@ import {
   styled,
 } from "@mui/material";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link as LikeComponent, Navigate, useLocation } from "react-router-dom";
 import { adminTabs } from "../../pages/Admin/AdminTabs";
+import { adminLogout } from "../../redux/thunks/admin";
 
 const Link = styled(LikeComponent)`
   text-decoration: none;
@@ -30,7 +31,10 @@ const Link = styled(LikeComponent)`
 // eslint-disable-next-line react/prop-types
 const SideBar = ({ w = "100%" }) => {
   const location = useLocation();
-  const logoutHandler = () => {};
+  const dispatch = useDispatch();
+  const logoutHandler = () => {
+    dispatch(adminLogout());
+  };
 
   return (
     <Stack width={w} direction={"column"} p={"1rem"} spacing={"3rem"}>
@@ -46,12 +50,11 @@ const SideBar = ({ w = "100%" }) => {
               location.pathname === tab.path && {
                 bgcolor: "#ea7070",
                 color: "white",
-                "&:hover":{
+                "&:hover": {
                   bgcolor: "#ea7070",
                   color: "white",
-                }
+                },
               }
-              
             }
           >
             <Stack direction={"row"} alignContent={"center"} spacing={"1rem"}>
@@ -73,7 +76,7 @@ const SideBar = ({ w = "100%" }) => {
 
 // eslint-disable-next-line react/prop-types
 const AdminLayout = ({ children }) => {
-  const {isAdmin} = useSelector((state)=> state.auth)
+  const { isAdmin } = useSelector((state) => state.auth);
   const [isMobile, setIsMobile] = useState(false);
 
   const handleMobileView = () => setIsMobile(!isMobile);
