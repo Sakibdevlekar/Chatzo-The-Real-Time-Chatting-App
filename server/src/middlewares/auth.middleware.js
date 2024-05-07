@@ -3,6 +3,9 @@ import { asyncHandler, ApiError } from "../utils/helper.util.js";
 import { User } from "../models/user.models.js";
 
 const isAuthenticated = asyncHandler((req, res, next) => {
+    if (req.cookies["chatzo-admin-token"] && req.path == "/data") {
+        return next()
+    }
     const token = req.cookies["chatzo-access-token"];
     if (!token) throw new ApiError(401, "Please login to access this route");
 
@@ -14,11 +17,12 @@ const isAuthenticated = asyncHandler((req, res, next) => {
 });
 
 const adminOnly = (req, res, next) => {
-    const token = req.cookies["chattu-admin-token"];
+    const token = req.cookies["chatzo-admin-token"];
+    console.log('adminToken>>>>>>',req.path);
 
     if (!token) throw new ApiError(401, "Only Admin can access this route");
 
-    const secretKey = jwt.verify(token, process.env.JWT_SECRET);
+    const secretKey = jwt.verify(token, process.env.ADMIN_JWT_SECRET);
 
     const isMatched = secretKey === process.env.ADMIN_SECRET_KEY;
 
@@ -52,7 +56,9 @@ const socketAuthenticator = async (err, socket, next) => {
         return next();
     } catch (error) {
         console.log(error);
-        return next(new ApiError(401, "Authentication failed. Please login again."));
+        return next(
+            new ApiError(401, "Authentication failed. Please login again."),
+        );
     }
 };
 

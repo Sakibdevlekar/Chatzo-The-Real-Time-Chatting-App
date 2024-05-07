@@ -20,7 +20,9 @@ router.get("/logout", adminLogout);
 
 // Only Admin Can Accecss these Routes
 
+console.count("adminReq>>>>>>>>>>>>");
 router.use(adminOnly);
+console.count("adminReq>>>>>>>>>>>>");
 
 router.get("/", getAdminData);
 

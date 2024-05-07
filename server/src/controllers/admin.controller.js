@@ -23,15 +23,12 @@ const adminLogin = asyncHandler(async (req, res, next) => {
     if (!isMatched) throw new ApiError(401, "Invalid Admin Key");
 
     // Generate JWT token using the secret key
-    const token = jwt.sign(secretKey, process.env.JWT_SECRET);
+    const token = jwt.sign(secretKey, process.env.ADMIN_JWT_SECRET);
 
     // Send the token as a cookie and a success response
     return res
         .status(200)
-        .cookie("chattu-admin-token", token, {
-            ...cookieOptions,
-            maxAge: 1000 * 60 * 15,
-        })
+        .cookie("chatzo-admin-token", token, cookieOptions)
         .json(
             new ApiResponse(
                 200,
