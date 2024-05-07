@@ -51,7 +51,7 @@ const adminLogout = asyncHandler(async (req, res, next) => {
     // Clear the admin authentication token cookie
     return res
         .status(200)
-        .cookie("chattu-admin-token", "", {
+        .cookie("chatzo-admin-token", "", {
             ...cookieOptions,
             maxAge: 0,
         })

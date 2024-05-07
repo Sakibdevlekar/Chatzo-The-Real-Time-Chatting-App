@@ -4,7 +4,7 @@ import { User } from "../models/user.models.js";
 
 const isAuthenticated = asyncHandler((req, res, next) => {
     if (req.cookies["chatzo-admin-token"] && req.path == "/data") {
-        return next()
+        return next();
     }
     const token = req.cookies["chatzo-access-token"];
     if (!token) throw new ApiError(401, "Please login to access this route");
@@ -18,7 +18,6 @@ const isAuthenticated = asyncHandler((req, res, next) => {
 
 const adminOnly = (req, res, next) => {
     const token = req.cookies["chatzo-admin-token"];
-    console.log('adminToken>>>>>>',req.path);
 
     if (!token) throw new ApiError(401, "Only Admin can access this route");
 
