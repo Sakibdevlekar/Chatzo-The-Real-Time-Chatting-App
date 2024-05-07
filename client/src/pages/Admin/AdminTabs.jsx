@@ -17,8 +17,8 @@ export const adminTabs = [
     icon: <ManageAccountsIcon />,
   },
   {
-    name: "Groups",
-    path: "/admin/groups-management",
+    name: "Chats",
+    path: "/admin/chats-management",
     icon: <GroupsIcon />,
   },
   {
