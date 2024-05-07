@@ -13,7 +13,10 @@ import {
   SearchFiled,
 } from "../../components/Styles/StyledComponents";
 import { DoughnutChart, LineChart } from "../../components/specific/Charts";
-
+import { useFetchData } from "6pp";
+import { server } from "../../constant/config";
+import { Loaders } from "../../components/Layout/Loaders";
+import { useErrors } from "../../hooks/hook";
 const AppBar = (
   <Paper
     elevation={3}
@@ -41,6 +44,17 @@ const AppBar = (
 );
 
 const Dashboard = () => {
+  const { loading, data, error } = useFetchData(
+    `${server}/admin/stats`,
+    "dashboard-stats"
+  );
+
+  useErrors([
+    {
+      isError: error,
+      error: error,
+    },
+  ]);
   const Widgets = (
     <Stack
       direction={{
@@ -52,12 +66,26 @@ const Dashboard = () => {
       alignItems={"center"}
       margin={"2rem 0"}
     >
-      <WidgetsComponent title={"Users"} value={25} Icon={<PersonIcon />} />
-      <WidgetsComponent title={"Chats"} value={25} Icon={<GroupIcon />} />
-      <WidgetsComponent title={"Messages"} value={25} Icon={<ForumIcon />} />
+      <WidgetsComponent
+        title={"Users"}
+        value={data?.data?.usersCount}
+        Icon={<PersonIcon />}
+      />
+      <WidgetsComponent
+        title={"Chats"}
+        value={data?.data?.totalChatsCount}
+        Icon={<GroupIcon />}
+      />
+      <WidgetsComponent
+        title={"Messages"}
+        value={data?.data?.messagesCount}
+        Icon={<ForumIcon />}
+      />
     </Stack>
   );
-  return (
+  return loading ? (
+    <Loaders />
+  ) : (
     <AdminLayout>
       <Container component={"main"}>
         {AppBar}
@@ -90,7 +118,7 @@ const Dashboard = () => {
               Last Messages
             </Typography>
             {/*Line char Component*/}
-            <LineChart value={[1, 10, 50, 80, 45, 20, 36, 78]} />
+            <LineChart value={data?.data?.messagesChart} />
           </Paper>
           <Paper
             elevation={3}
@@ -108,7 +136,10 @@ const Dashboard = () => {
           >
             <DoughnutChart
               labels={["Single Chats", "Group Chats"]}
-              value={[35, 75]}
+              value={[
+                data?.data?.totalChatsCount - data?.data?.groupsCount || 0,
+                data?.data?.groupsCount || 0,
+              ]}
             />
 
             <Stack

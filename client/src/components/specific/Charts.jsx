@@ -57,7 +57,7 @@ const LineChart = ({ value = [] }) => {
     labels,
     datasets: [
       {
-        label: "Revenue2",
+        label: "Messages",
         data: value,
         fill: true,
         backgroundColor: colors.purpleLight,
@@ -87,7 +87,6 @@ const DoughnutChart = ({ value = [], labels = [] }) => {
     labels,
     datasets: [
       {
-        label: "Total Chats Vs Group Chats ",
         data: value,
         backgroundColor: [
           "rgba(153, 102, 255, 0.2)",
