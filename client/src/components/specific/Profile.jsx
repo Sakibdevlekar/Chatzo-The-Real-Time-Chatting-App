@@ -13,7 +13,7 @@ const Profile = () => {
   return (
     <Stack spacing={"2rem"} direction={"column"} alignItems={"center"}>
       <Avatar
-        src={transformImage(user?.data?.avatar?.url)}
+        src={transformImage(user?.avatar?.url)}
         sx={{
           width: 200,
           height: 200,
@@ -22,16 +22,16 @@ const Profile = () => {
           border: "5px solid white",
         }}
       />
-      <ProfileCard heading={"Bio"} text={user?.data?.bio} />
+      <ProfileCard heading={"Bio"} text={user?.bio} />
       <ProfileCard
         heading={"username"}
         text={user?.data?.username}
         Icon={UserNameIcon}
       />
-      <ProfileCard heading={"Name"} text={user?.data?.name} Icon={FaceIcon} />
+      <ProfileCard heading={"Name"} text={user?.name} Icon={FaceIcon} />
       <ProfileCard
         heading={"Joined"}
-        text={moment(user?.data?.createdAt).fromNow()}
+        text={moment(user?.createdAt).fromNow()}
         Icon={CalendarIcon}
       />
     </Stack>

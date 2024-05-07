@@ -75,7 +75,7 @@ function Chat({ chatId }) {
     [chatId]
   );
   const alertListener = useCallback(
-    (data) => {
+    ({data}) => {
       if (data.chatId !== chatId) return;
       const messageForAlert = {
         content: data.message,

@@ -1,26 +1,26 @@
+import { useFileHandler, useInputValidation, useStrongPassword } from "6pp";
+import { CameraAlt as CameraIcon, VisibilityOffRounded, VisibilityRounded } from "@mui/icons-material";
 import {
-  Container,
-  Paper,
-  Typography,
-  TextField,
-  Button,
-  Stack,
   Avatar,
+  Button,
+  Container,
   IconButton,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import { CameraAlt as CameraIcon } from "@mui/icons-material";
-import { VisualHiddenInput } from "../components/Styles/StyledComponents";
-import { VisibilityRounded, VisibilityOffRounded } from "@mui/icons-material";
-import { useInputValidation, useStrongPassword, useFileHandler } from "6pp";
-import { useState } from "react";
-import { userNameValidator } from "../utils/validator";
 import axios from "axios";
-import { server } from "../constant/config";
-import { useDispatch } from "react-redux";
-import { userExists } from "../redux/reducers/auth.reducer";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { VisualHiddenInput } from "../components/Styles/StyledComponents";
+import { server } from "../constant/config";
+import { userExists } from "../redux/reducers/auth.reducer";
+import { userNameValidator } from "../utils/validator";
 function Login() {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [isLogin, setIsLogin] = useState(true);
@@ -37,6 +37,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const config = {
       withCredentials: true,
       headers: {
@@ -53,8 +54,9 @@ function Login() {
         },
         config
       );
+
       if (data.statusCode === 200) {
-        dispatch(userExists(true));
+        dispatch(userExists(data?.data));
         toast.success(data.message, { id: 1 });
       } else if (data.statusCode === 401) {
         dispatch(userExists(false));
@@ -66,11 +68,16 @@ function Login() {
           "Something went wrong while trying to login",
         { id: 1 }
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (!avatar.file) {
+      return toast.error("Please Upload Profile Photo", { id: 2 });
+    }
     const formData = new FormData();
     formData.append("avatar", avatar.file);
     formData.append("name", name.value);
@@ -79,13 +86,15 @@ function Login() {
     formData.append("password", password.value);
     try {
       toast.loading("Please wait your request being processed", { id: 2 });
+      setIsLoading(true);
       const config = {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       };
       const { data } = await axios.post(`${server}/user/new`, formData, config);
+      // console.log("register",data?.data);
       if (data.statusCode === 201) {
-        dispatch(userExists(true));
+        dispatch(userExists(data?.data));
         toast.success(data.message, { id: 2 });
       } else if (data.statusCode === 400) {
         dispatch(userExists(false));
@@ -96,6 +105,8 @@ function Login() {
         error.response?.data?.message ||
           "Something went wrong while trying to login"
       );
+    } finally {
+      setIsLoading(false);
     }
   };
   const togglePasswordVisibility = () => {
@@ -186,8 +197,7 @@ function Login() {
                     ":hover": { bgcolor: "#FF7E81" },
                   }}
                   variant="contained"
-                  // color="#ea7070"
-
+                  disabled={isLoading}
                   type="submit"
                   fullWidth
                 >
@@ -323,6 +333,7 @@ function Login() {
                   color="primary"
                   type="submit"
                   fullWidth
+                  disabled={isLoading}
                 >
                   Register
                 </Button>

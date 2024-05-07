@@ -1,31 +1,30 @@
-import Title from "../shared/Title";
-import Header from "../shared/Header";
 import { Drawer, Grid, Skeleton } from "@mui/material";
-import ChatList from "../specific/ChatList";
-import { useNavigate, useParams } from "react-router-dom";
-import Profile from "../specific/Profile";
-import { useMyChatsQuery } from "../../redux/api/api";
+import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  NEW_MESSAGE_ALERT,
+  NEW_REQUEST,
+  REFETCH_CHATS
+} from "../../constant/event";
+import { useErrors, useSocketEvents } from "../../hooks/hook";
+import { getOrSaveFromStorage } from "../../lib/features";
+import { useMyChatsQuery } from "../../redux/api/api";
+import {
+  incrementNotification,
+  setNewMessagesAlert,
+} from "../../redux/reducers/chat";
 import {
   setIsDeleteMenu,
   setIsMobile,
   setSelectedDeleteChat,
 } from "../../redux/reducers/misc";
-import { useErrors, useSocketEvents } from "../../hooks/hook";
 import { getSocket } from "../../socket";
-import {
-  NEW_MESSAGE,
-  NEW_MESSAGE_ALERT,
-  NEW_REQUEST,
-  REFETCH_CHATS,
-} from "../../constant/event";
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  incrementNotification,
-  setNewMessagesAlert,
-} from "../../redux/reducers/chat";
-import { getOrSaveFromStorage } from "../../lib/features";
 import DeleteChatMenu from "../Dialogs/DeleteChatMenu";
+import Header from "../shared/Header";
+import Title from "../shared/Title";
+import ChatList from "../specific/ChatList";
+import Profile from "../specific/Profile";
 
 const AppLayout = () => (WrappedComponent) => {
   // eslint-disable-next-line react/display-name
