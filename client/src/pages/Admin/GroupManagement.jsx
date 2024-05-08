@@ -116,9 +116,9 @@ const GroupManagement = () => {
   const [rows, setRows] = useState([]);
   const { loading, data, error } = useFetchData(
     `${server}/admin/chats`,
-    "admin-chats",
+    "admin-chats"
   );
-  
+
   const chatData = data?.data;
   useErrors([
     {
@@ -147,7 +147,7 @@ const GroupManagement = () => {
   return (
     <AdminLayout>
       {loading ? (
-        <Skeleton />
+        <Skeleton height={"100vh"} />
       ) : (
         <Table heading={"All Chats"} columns={columns} rows={rows} />
       )}

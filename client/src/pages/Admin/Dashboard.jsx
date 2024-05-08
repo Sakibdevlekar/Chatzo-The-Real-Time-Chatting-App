@@ -92,7 +92,7 @@ const Dashboard = () => {
   return (
     <AdminLayout>
       {loading ? (
-        <Skeleton />
+        <Skeleton height={"100vh"} />
       ) : (
         <Container component={"main"}>
           {AppBar}

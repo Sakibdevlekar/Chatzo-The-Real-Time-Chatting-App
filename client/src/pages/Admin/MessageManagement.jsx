@@ -158,7 +158,7 @@ const MessageManagement = () => {
   return (
     <AdminLayout>
       {loading ? (
-        <Skeleton />
+        <Skeleton height={"100vh"}/>
       ) : (
         <Table
           rowHeight={200}

@@ -1,13 +1,12 @@
-import AvatarCard from "../../components/shared/AvatarCard";
-import { useEffect, useState } from "react";
-import Table from "../../components/shared/Table";
-import { transformImage } from "../../lib/features";
-import { dashboardData } from "../../constant/SampleData";
-import AdminLayout from "../../components/Layout/AdminLayout";
 import { useFetchData } from "6pp";
-import { useErrors } from "../../hooks/hook";
 import { Skeleton } from "@mui/material";
+import { useEffect, useState } from "react";
+import AdminLayout from "../../components/Layout/AdminLayout";
+import AvatarCard from "../../components/shared/AvatarCard";
+import Table from "../../components/shared/Table";
 import { server } from "../../constant/config";
+import { useErrors } from "../../hooks/hook";
+import { transformImage } from "../../lib/features";
 
 const columns = [
   {
@@ -57,7 +56,7 @@ const UserManagement = () => {
     `${server}/admin/users`,
     "admin-users"
   );
-  const userData = data?.data
+  const userData = data?.data;
 
   // console.log(error);
   useErrors([
@@ -82,7 +81,7 @@ const UserManagement = () => {
   return (
     <AdminLayout>
       {loading ? (
-        <Skeleton />
+        <Skeleton height={"100vh"} />
       ) : (
         <Table heading={"All Users"} columns={columns} rows={rows} />
       )}
