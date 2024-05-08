@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useFetchData } from "6pp";
+import { Avatar, Box, Skeleton, Stack, Typography } from "@mui/material";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import AdminLayout from "../../components/Layout/AdminLayout";
-import { Stack, Avatar, Typography, Box } from "@mui/material";
 import RenderAttachment from "../../components/shared/RenderAttachment";
 import Table from "../../components/shared/Table";
-import { dashboardData } from "../../constant/SampleData";
-import { fileFormate, transformImage } from "../../lib/features";
-import moment from "moment";
 import colors from "../../constant/color";
+import { server } from "../../constant/config";
+import { useErrors } from "../../hooks/hook";
+import { fileFormate, transformImage } from "../../lib/features";
 
 const columns = [
   {
@@ -62,7 +64,7 @@ const columns = [
     renderCell: (params) => {
       return (
         <Stack direction={"row"} spacing={"1rem"} alignItems={"center"}>
-          <Avatar alt={params.row.sender.name} src={params.row.sender.avatar} />
+          <Avatar sx={{width:"4rem"}} alt={params.row.sender.name} src={params.row.sender.avatar} />
           <span>{params.row.sender.name}</span>
         </Stack>
       );
@@ -85,7 +87,7 @@ const columns = [
         <Stack
           alignItems={"center"}
           justifyContent={"center"}
-          marginTop={"0.5rem"}
+          marginTop={"5rem"}
         >
           {isGroupChat ? (
             <Typography
@@ -123,23 +125,48 @@ const columns = [
 ];
 const MessageManagement = () => {
   const [rows, setRows] = useState([]);
+
+  const { loading, data, error } = useFetchData(
+    `${server}/admin/messages`,
+    "dashboard-messages"
+  );
+  const messageData = data?.data;
+  useErrors([
+    {
+      isError: error,
+      error: error,
+    },
+  ]);
   useEffect(() => {
-    setRows(
-      dashboardData.messages.map((message) => ({
-        ...message,
-        id: message._id,
-        sender: {
-          name: message.sender.name,
-          avatar: transformImage(message.sender.avatar, 50),
-        },
-        createdAt: moment(message.createdAt).format("MMMM Do YYYY, h:mm:ss a"),
-      }))
-    );
-  }, []);
+    if (messageData) {
+      setRows(
+        messageData?.map((message) => ({
+          ...message,
+          id: message._id,
+          sender: {
+            name: message.sender.name,
+            avatar: transformImage(message.sender.avatar, 3000),
+          },
+          createdAt: moment(message.createdAt).format(
+            "MMMM Do YYYY, h:mm:ss a"
+          ),
+        }))
+      );
+    }
+  }, [messageData]);
 
   return (
     <AdminLayout>
-      <Table rowHeight={200} heading={"All Messages"} columns={columns} rows={rows} />
+      {loading ? (
+        <Skeleton />
+      ) : (
+        <Table
+          rowHeight={200}
+          heading={"All Messages"}
+          columns={columns}
+          rows={rows}
+        />
+      )}
     </AdminLayout>
   );
 };
