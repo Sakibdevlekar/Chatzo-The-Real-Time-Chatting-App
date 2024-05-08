@@ -1,29 +1,25 @@
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import { v4 as uuid } from "uuid";
+import { io, server } from "./app.js";
+import { connectDB } from "./configs/db.config.js";
+import {
+    CHAT_JOINED,
+    CHAT_LEAVED,
+    NEW_MESSAGE,
+    NEW_MESSAGE_ALERT,
+    ONLINE_USERS,
+    START_TYPING,
+    STOP_TYPING
+} from "./constant/event.constant.js";
+import { getSockets } from "./lib/helper.lib.js";
+import { socketAuthenticator } from "./middlewares/auth.middleware.js";
+import { Message } from "./models/message.model.js";
 dotenv.config({
     path: "./.env",
 });
-import { io, server } from "./app.js";
-import { v4 as uuid } from "uuid";
-import { connectDB } from "./configs/db.config.js";
 const port = process.env.PORT || 3000;
 const envMode = process.env.NODE_ENV?.trim() || "PRODUCTION";
-import cookieParser from "cookie-parser";
-import { getSockets } from "./lib/helper.lib.js";
-import { Message } from "./models/message.model.js";
-import {
-    ALERT,
-    REFETCH_CHATS,
-    NEW_ATTACHMENT,
-    NEW_MESSAGE_ALERT,
-    NEW_REQUEST,
-    NEW_MESSAGE,
-    START_TYPING,
-    STOP_TYPING,
-    CHAT_JOINED,
-    CHAT_LEAVED,
-    ONLINE_USERS,
-} from "./constant/event.constant.js";
-import { socketAuthenticator } from "./middlewares/auth.middleware.js";
 export const userSocketIDs = new Map();
 const onlineUsers = new Set();
 
@@ -85,7 +81,9 @@ io.on("connection", (socket) => {
     });
 
     socket.on(CHAT_LEAVED, ({ userId, members }) => {
-        onlineUsers.delete(userId.toString());
+        if (userId) {
+            onlineUsers.delete(userId.toString());
+        }
 
         const membersSocket = getSockets(members);
         io.to(membersSocket).emit(ONLINE_USERS, Array.from(onlineUsers));
