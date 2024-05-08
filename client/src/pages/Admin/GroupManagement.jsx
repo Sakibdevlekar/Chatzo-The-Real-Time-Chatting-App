@@ -98,7 +98,6 @@ const columns = [
     headerClassName: "table-header",
     width: 150,
     renderCell: (params) => {
-      console.log(params.row);
       return (
         <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
           <Avatar
@@ -117,8 +116,9 @@ const GroupManagement = () => {
   const [rows, setRows] = useState([]);
   const { loading, data, error } = useFetchData(
     `${server}/admin/chats`,
-    "users"
+    "admin-chats",
   );
+  
   const chatData = data?.data;
   useErrors([
     {
@@ -130,13 +130,13 @@ const GroupManagement = () => {
   useEffect(() => {
     if (chatData) {
       setRows(
-        chatData?.chats.map((group) => ({
+        chatData.map((group) => ({
           ...group,
           id: group._id,
-          avatar: group.avatar.map((i) => transformImage(i, 3000)),
-          members: group.members.map((i) => transformImage(i.avatar, 3000)),
+          avatar: group?.avatar.map((i) => transformImage(i, 3000)),
+          members: group?.members.map((i) => transformImage(i.avatar, 3000)),
           creator: {
-            name: group.creator.name,
+            name: group?.creator.name,
             avatar: transformImage(group.creator.avatar, 3000),
           },
         }))

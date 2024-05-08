@@ -110,7 +110,7 @@ const allUsers = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200,
-                { users: transformedUsers },
+                transformedUsers,
                 "Users fetched successfully",
             ),
         );
@@ -160,7 +160,7 @@ const allChats = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200,
-                { chats: transformedChats },
+                transformedChats,
                 "Chats fetched successfully",
             ),
         );
@@ -202,7 +202,7 @@ const allMessages = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200,
-                { messages: transformedMessages },
+                transformedMessages,
                 "Messages fetched successfully",
             ),
         );

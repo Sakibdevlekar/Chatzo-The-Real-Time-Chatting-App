@@ -55,9 +55,11 @@ const UserManagement = () => {
   const [rows, setRows] = useState([]);
   const { loading, data, error } = useFetchData(
     `${server}/admin/users`,
-    "users"
+    "admin-users"
   );
   const userData = data?.data
+
+  // console.log(error);
   useErrors([
     {
       isError: error,
@@ -68,10 +70,10 @@ const UserManagement = () => {
   useEffect(() => {
     if (userData) {
       setRows(
-        userData.users.map((user) => ({
+        userData.map((user) => ({
           ...user,
           id: user._id,
-          avatar: transformImage(user.avatar, 50),
+          avatar: transformImage(user?.avatar, 3000),
         }))
       );
     }
