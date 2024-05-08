@@ -1,8 +1,8 @@
 import { Box, Stack, Typography } from "@mui/material";
+import { motion } from "framer-motion";
 import { memo } from "react";
 import { Link } from "../Styles/StyledComponents";
 import AvatarCard from "./AvatarCard";
-import { motion } from "framer-motion"; 
 
 const ChatItem = ({
   // eslint-disable-next-line react/prop-types, no-unused-vars
@@ -39,7 +39,7 @@ const ChatItem = ({
         transition={{ delay: 0.1 * index }}
         style={{
           display: "flex",
-          gap: "5rem",
+          gap: "3rem",
           alignItems: "center",
           backgroundColor: sameSender ? "black" : "unset",
           color: sameSender ? "white" : "unset",

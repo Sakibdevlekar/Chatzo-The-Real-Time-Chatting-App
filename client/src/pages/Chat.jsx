@@ -1,3 +1,4 @@
+import { useInfiniteScrollTop } from "6pp";
 import {
   AttachFile as AttachFileIcon,
   Send as SendIcon,
@@ -5,8 +6,10 @@ import {
 import { IconButton, Skeleton, Stack, Tooltip } from "@mui/material";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import FileMenu from "../components/Dialogs/FileMenu";
 import AppLayout from "../components/Layout/AppLayout";
+import { TypingLoader } from "../components/Layout/Loaders.jsx";
 import { InputBox } from "../components/Styles/StyledComponents";
 import MessageComponent from "../components/shared/MessageComponent";
 import colors from "../constant/color";
@@ -20,12 +23,9 @@ import {
 } from "../constant/event.js";
 import { useErrors, useSocketEvents } from "../hooks/hook.jsx";
 import { useChatDetailsQuery, useGetMessagesQuery } from "../redux/api/api.js";
-import { getSocket } from "../socket";
-import { useInfiniteScrollTop } from "6pp";
-import { setIsFileMenu } from "../redux/reducers/misc.js";
 import { removeNewMessagesAlert } from "../redux/reducers/chat.js";
-import { TypingLoader } from "../components/Layout/Loaders.jsx";
-import { useNavigate } from "react-router-dom";
+import { setIsFileMenu } from "../redux/reducers/misc.js";
+import { getSocket } from "../socket";
 
 // eslint-disable-next-line react-refresh/only-export-components, react/prop-types
 function Chat({ chatId }) {
@@ -75,7 +75,7 @@ function Chat({ chatId }) {
     [chatId]
   );
   const alertListener = useCallback(
-    ({data}) => {
+    ({ data }) => {
       if (data.chatId !== chatId) return;
       const messageForAlert = {
         content: data.message,
@@ -139,15 +139,19 @@ function Chat({ chatId }) {
   };
 
   useEffect(() => {
+    if (user?.data?._id) {
+      socket.emit(CHAT_JOINED, { userId: user?.data?._id, members });
+    }
     dispatch(removeNewMessagesAlert(chatId));
     return () => {
       setMessages([]);
       setMessage("");
       setOldMessages([]);
       setPage(1);
+      socket.emit(CHAT_LEAVED, { userId: user?.data?._id, members });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chatId]);
+  }, [chatId, socket]);
 
   useEffect(() => {
     if (bottomRef.current)
