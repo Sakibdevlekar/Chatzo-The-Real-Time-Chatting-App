@@ -1,5 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import NotFoundImg from "../assets/404.svg";
+import { Link } from "react-router-dom";
 
 function NotFound() {
   return (
@@ -30,6 +31,7 @@ function NotFound() {
           display: "block",
         }}
       />
+      <Link style={{marginTop:"5rem"}} to={"/"}>Go Back To Home</Link>
     </Stack>
   );
 }
