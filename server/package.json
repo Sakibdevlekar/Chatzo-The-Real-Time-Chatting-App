@@ -7,7 +7,7 @@
     "scripts": {
         "start": " node src/index.js",
         "dev": " nodemon src/index.js",
-        "vercel-build":" npm install"
+        "vercel-build": " npm install"
     },
     "repository": {
         "type": "git",
@@ -47,8 +47,10 @@
         "morgan": "^1.10.0",
         "multer": "^1.4.5-lts.1",
         "socket.io": "^4.7.5",
+        "swagger-ui-express": "^5.0.0",
         "uuid": "^9.0.1",
-        "winston": "^3.13.0"
+        "winston": "^3.13.0",
+        "yaml": "^2.4.2"
     },
     "devDependencies": {
         "@faker-js/faker": "^8.4.1",
