@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info:
+    title: Chatzo API
+    version: 1.0.0
+    description: >-
+        # Chatzo.app
+
+        Chatzo backend, powered by Node.js with Express, Mongoose, Socket.io, Cloudinary, and Express Validator, ensures real-time communication, efficient data management, and secure file uploads. Leveraging these technologies, we've built a scalable and robust backend system for seamless chat functionality.
+
+
+        ## 🏁 Installation
+
+        Follow [these](https://github.com/Sakibdevlekar/Chatzo-The-Real-Time-Chatting-App/blob/main/server/README.md) instructions for the installation and project setup.
+
+        ## 🐞 Reporting issues
+
+        If you find API issues or bugs when testing, please create an [issue](https://github.com/Sakibdevlekar/Chatzo-The-Real-Time-Chatting-App/issues)
+    contact: { name: "Developer", email: "sakibdevlekar96@gmail.com" }
+servers:
+    - url: ${{server}}
