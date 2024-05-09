@@ -1,8 +1,4 @@
-<div style="display: flex; align-items: center;">
-  <img src="../client/public/react.png" width="50" height="50" style="margin-right: 20px;" />
-  <h1 style="margin-bottom: 0;">Chatzo Backend
-</h1>
-</div>
+![Chatzo](/client/public/Chatzo_BE.png)
 
 ### [🏠 Home](../README.md)
 ### [💻 Frontend Setup](../client/README.md)
