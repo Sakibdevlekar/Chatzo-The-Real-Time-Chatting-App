@@ -1,6 +1,6 @@
-![Chatzo](client/public/react.png){ width=40 height=40 style="margin-right: 20px;" }
+![Chatzo](client/public/Chatzo.png)
 
-# Chatzo The Real Time Chatting App
+
 
 ## Introduction 🌟
 
