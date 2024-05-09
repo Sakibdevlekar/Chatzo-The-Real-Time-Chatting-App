@@ -1,7 +1,7 @@
 <div style="display: flex; align-items: center;">
-  <img src="client/public/react.png" width="50" height="50" style="margin-right: 20px;" />
-  <h1 style="margin-bottom: 0;">Chatzo The Real Time Chatting App
-</h1>
+  <img src="client/public/react.png" width="40" height="40" style="margin-right: 20px;" />
+  <h2 style="margin-bottom: 0;">Chatzo The Real Time Chatting App
+</h2>
 </div>
 
 ## Introduction 🌟
