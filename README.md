@@ -1,14 +1,8 @@
-<!-- <div style="display: flex; align-items: center;">
+<div style="display: flex; align-items: center; text-align: center; ">
   <img src="client/public/react.png" width="40" height="40" style="margin-right: 20px;" />
-  <h2 style="margin-bottom: 0;">Chatzo The Real Time Chatting App
-</h2>
-</div> -->
-<p align="left">
-  <a href="https://strapi.io/#gh-light-mode-only">
-    <img src="client/public/react.png" width="80px" alt="Strapi logo" />
-  </a>
-  <a><h2 style="margin-bottom: 0;"> Chatzo The Real Time Chatting App</h2></a>
-</p>
+  <h3 style="margin-bottom: 0;">Chatzo The Real Time Chatting App
+</h3>
+</div>
 
 ## Introduction 🌟
 
