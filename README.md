@@ -119,10 +119,10 @@ If you encounter any issues with the application, contact [sakibdevlekar96@gmail
 ## Deployment 🚀
 
 You can access the deployed version of Chatzo at the following link:
-[Chatzo Live](https://your-deployment-link.com)
+[Chatzo Live](https://chatzo-live.vercel.app/)
 
 To access the live Chatzo application:
 
-1. Visit [Chatzo Live](https://your-deployment-link.com).
+1. Visit [Chatzo Live](https://chatzo-live.vercel.app/).
 2. Sign up or log in to your account.
 3. Explore the features and functionalities of Chatzo in real-time!
