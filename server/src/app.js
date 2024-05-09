@@ -3,11 +3,15 @@ import { BASE_URL } from "./constant/config.constant.js";
 import { corsOptions } from "./constant/config.constant.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import cookieParser from "cookie-parser";
-import cors from "cors";
 import { Server } from "socket.io";
 import { createServer } from "http";
+import cors from "cors";
 const app = express();
+
+
+
 const server = createServer(app);
+
 const io = new Server(server, {
     cors: corsOptions,
 });
@@ -21,6 +25,7 @@ app.use(
         origin: [
             "http://localhost:5173",
             "http://localhost:4173",
+            "https://chatzo-live.vercel.app",
             String(process.env.CLIENT_URL),
         ],
         credentials: true,
@@ -37,12 +42,12 @@ app.use(`${BASE_URL}/user`, userRoutes);
 app.use(`${BASE_URL}/chat`, chatRoutes);
 app.use(`${BASE_URL}/admin`, adminRoutes);
 
+
 app.all("*", (req, res, next) => {
     res.status(404).json({
         message: "Not found",
     });
 });
-
 app.use(errorHandler);
 
 export { app, io, server };
