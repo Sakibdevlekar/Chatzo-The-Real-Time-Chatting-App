@@ -18,3 +18,348 @@ info:
     contact: { name: "Developer", email: "sakibdevlekar96@gmail.com" }
 servers:
     - url: ${{server}}
+
+paths:
+    /user/new:
+        post:
+            tags:
+                - 👤 User APIs
+            summary: Register new user
+            description: >
+                The API endpoint allows users to register or signup to create their accounts.
+            operationId: registerUser
+            requestBody:
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                avatar:
+                                    description: File
+                                    type: string
+                                    format: binary
+                                    required: true
+                                name:
+                                    type: string
+                                    example: doejohn
+                                    required: true
+                                username:
+                                    type: string
+                                    example: doejohn
+                                    required: true
+                                bio:
+                                    type: string
+                                    example: I am developer
+                                    required: true
+                                password:
+                                    type: string
+                                    example: test@123
+                                    required: true
+                        example:
+                            name: doejohn
+                            username: doejohn12
+                            bio: I am developer
+                            password: test@123
+            responses:
+                "201":
+                    description: Register new user
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "500"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 30 Jun 2024 06:44:09 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"1f4-1q38Sbu25p0UVmeYQmrEv2VrgPg"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        RateLimit-Limit:
+                            schema:
+                                type: string
+                                example: "500"
+                        RateLimit-Remaining:
+                            schema:
+                                type: string
+                                example: "495"
+                        RateLimit-Reset:
+                            schema:
+                                type: string
+                                example: "772"
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            user:
+                                                type: object
+                                                properties:
+                                                    __v:
+                                                        type: number
+                                                        example: 0
+                                                    _id:
+                                                        type: string
+                                                        example: 649e795264e7dba29b726936
+                                                    avatar:
+                                                        type: object
+                                                        properties:
+                                                            public_id:
+                                                                type: string
+                                                                example: 649e795264e7dba29b726935
+                                                            url:
+                                                                type: string
+                                                                example: https://via.placeholder.com/200x200.png
+                                                    name:
+                                                        type: string
+                                                        example: doejohn12
+                                                    username:
+                                                        type: string
+                                                        example: doejohn
+                                                    bio:
+                                                        type: string
+                                                        example: I am developer
+                                                    createdAt:
+                                                        type: string
+                                                        example: "2024-05-30T06:42:26.163Z"
+                                                    updatedAt:
+                                                        type: string
+                                                        example: "2024-05-30T06:42:26.247Z"
+                                    message:
+                                        type: string
+                                        example: >
+                                            User created.
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                Register new user:
+                                    value:
+                                        data:
+                                            user:
+                                                __v: 0
+                                                _id: 649e795264e7dba29b726936
+                                                avatar:
+                                                    public_id: 649e795264e7dba29b726935
+                                                    url: https://via.placeholder.com/200x200.png
+                                                name: doejohn12
+                                                username: doejohn
+                                                bio: I am developer
+                                                createdAt: "2024-06-30T06:42:26.163Z"
+                                                updatedAt: "2024-06-30T06:42:26.247Z"
+                                        message: >
+                                            User created.
+                                        statusCode: 200
+                                        success: true
+    /user/login:
+        post:
+            tags:
+                - 👤 User APIs
+            summary: Login user
+            description: >
+                - The API endpoint allows users to log into the application securely and also returns an access token. 
+
+                - When accessing this endpoint with valid login credentials, users will receive an access token in the response.
+
+                - Additionally, the API endpoint securely sets the access token within the browser/client httpOnly cookies for future authentication and authorization purposes.
+
+                - This functionality ensures a secure and efficient login process for users, providing them with an access token that can be used to authenticate subsequent API requests.
+
+                - By securely storing the access token in browser cookies, the endpoint enables automatic inclusion of the access token in future API requests, eliminating the need for users to manually manage and provide the token with each request.
+            operationId: loginUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                username:
+                                    type: string
+                                    example: doejohn
+                                password:
+                                    type: string
+                                    example: test@123
+                        example:
+                            username: doejohn
+                            password: test@123
+            responses:
+                "200":
+                    description: Login user
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "926"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 30 Jun 2024 06:44:29 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"39e-a7Fdn0Th2/i/29/rw1he3r/pebo"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        RateLimit-Limit:
+                            schema:
+                                type: string
+                                example: "500"
+                        RateLimit-Remaining:
+                            schema:
+                                type: string
+                                example: "494"
+                        RateLimit-Reset:
+                            schema:
+                                type: string
+                                example: "648"
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >
+                                    chatzo-access-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJpYXQiOjE2ODgxMDc0NjksImV4cCI6MTY4ODk3MTQ2OX0.7or55Coj0K_UY4YpzYzkNR9hcOIhusxk9FRz7eMV8Ho;
+                                    chatzo-refresh-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJpYXQiOjE2ODgxMDc0NjksImV4cCI6MTY4ODk3MTQ2OX0.7or55Coj0K_UY4YpzYzkNR9hcOIhusxk9FRz7eMV8Ho;
+                                    Path=/; HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            user:
+                                                type: object
+                                                properties:
+                                                    __v:
+                                                        type: number
+                                                        example: 0
+                                                    _id:
+                                                        type: string
+                                                        example: 649e795264e7dba29b726936
+                                                    avatar:
+                                                        type: object
+                                                        properties:
+                                                            public_id:
+                                                                type: string
+                                                                example: 649e795264e7dba29b726935
+                                                            url:
+                                                                type: string
+                                                                example: https://via.placeholder.com/200x200.png
+                                                    name:
+                                                        type: string
+                                                        example: doejohn12
+                                                    username:
+                                                        type: string
+                                                        example: doejohn
+                                                    bio:
+                                                        type: string
+                                                        example: I am developer
+                                                    createdAt:
+                                                        type: string
+                                                        example: "2024-05-30T06:42:26.163Z"
+                                                    updatedAt:
+                                                        type: string
+                                                        example: "2024-05-30T06:42:26.247Z"
+                                    message:
+                                        type: string
+                                        example: Welcome Back, doejohn
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                                examples:
+                                    Login user:
+                                        value:
+                                            data:
+                                                type: object
+                                                properties:
+                                                    __v:
+                                                        type: number
+                                                        example: 0
+                                                    _id:
+                                                        type: string
+                                                        example: 649e795264e7dba29b726936
+                                                    avatar:
+                                                        type: object
+                                                        properties:
+                                                            public_id:
+                                                                type: string
+                                                                example: 649e795264e7dba29b726935
+                                                            url:
+                                                                type: string
+                                                                example: https://via.placeholder.com/200x200.png
+                                                    name:
+                                                        type: string
+                                                        example: doejohn12
+                                                    username:
+                                                        type: string
+                                                        example: doejohn
+                                                    bio:
+                                                        type: string
+                                                        example: I am developer
+                                                    createdAt:
+                                                        type: string
+                                                        example: "2024-05-30T06:42:26.163Z"
+                                                    updatedAt:
+                                                        type: string
+                                                        example: "2024-05-30T06:42:26.247Z"
+                                            message: Welcome Back, doejohn
+                                            statusCode: 200
+                                            success: true
+
+tags:
+    - name: 👤 User APIs
+      description:
+          This section contains a collection of user APIs, offering various
+          functionalities.
+    - name: 🗨️ Chat APIs
+      description: This section is a collection of essential backend development APIs.
+    - name: 📊 Admin APIs
+      description: This section encompasses all the APIs related to user authentication.
