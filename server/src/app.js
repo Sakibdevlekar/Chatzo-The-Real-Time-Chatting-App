@@ -2,6 +2,7 @@ import express from "express";
 import { BASE_URL } from "./constant/config.constant.js";
 import { corsOptions } from "./constant/config.constant.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
+import { morganMiddleware } from "./logger/morgan.logger.js";
 import cookieParser from "cookie-parser";
 import swaggerUi from "swagger-ui-express";
 import { fileURLToPath } from "url";
@@ -63,10 +64,14 @@ app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Credentials", true);
     next();
 });
+
+
 /* Route Import */
 import { adminRoutes } from "./routes/admin.route.js";
 import { userRoutes } from "./routes/user.route.js";
 import { chatRoutes } from "./routes/chat.route.js";
+/*API Logger*/
+app.use(morganMiddleware)
 
 /* Route use*/
 app.use(`${BASE_URL}/user`, userRoutes);

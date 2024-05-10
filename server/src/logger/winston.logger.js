@@ -20,9 +20,10 @@ const levels = {
 // the current NODE_ENV: show all the log levels
 // if the server was run in development mode; otherwise,
 // if it was run in production, show only warn and error messages.
+
 const level = () => {
-    const env = process.env.NODE_ENV || "development";
-    const isDevelopment = env === "development";
+    const env = process.env.NODE_ENV || "DEV";
+    const isDevelopment = env === "DEV";
     return isDevelopment ? "debug" : "warn";
 };
 
