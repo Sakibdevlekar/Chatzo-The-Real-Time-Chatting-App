@@ -3,6 +3,7 @@ import { BASE_URL } from "./constant/config.constant.js";
 import { corsOptions } from "./constant/config.constant.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import { morganMiddleware } from "./logger/morgan.logger.js";
+import { apiRateLimiter } from "./utils/apiRateLimiter.js";
 import cookieParser from "cookie-parser";
 import swaggerUi from "swagger-ui-express";
 import { fileURLToPath } from "url";
@@ -65,13 +66,16 @@ app.use(function (req, res, next) {
     next();
 });
 
-
 /* Route Import */
 import { adminRoutes } from "./routes/admin.route.js";
 import { userRoutes } from "./routes/user.route.js";
 import { chatRoutes } from "./routes/chat.route.js";
+
+/* API  Rate Limiter*/
+app.use(apiRateLimiter);
+
 /*API Logger*/
-app.use(morganMiddleware)
+app.use(morganMiddleware);
 
 /* Route use*/
 app.use(`${BASE_URL}/user`, userRoutes);
