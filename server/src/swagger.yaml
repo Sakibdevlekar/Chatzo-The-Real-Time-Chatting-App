@@ -353,13 +353,1876 @@ paths:
                                             message: Welcome Back, doejohn
                                             statusCode: 200
                                             success: true
+    /users/logout:
+        get:
+            tags:
+                - 👤 User APIs
+            summary: Logout user
+            description: >
+                - The API endpoint is responsible for logging out users from the application and destroying the access token cookies stored on the client-side.
 
-tags:
-    - name: 👤 User APIs
-      description:
-          This section contains a collection of user APIs, offering various
-          functionalities.
-    - name: 🗨️ Chat APIs
-      description: This section is a collection of essential backend development APIs.
-    - name: 📊 Admin APIs
-      description: This section encompasses all the APIs related to user authentication.
+                - When accessing this endpoint, it triggers the logout process, revoking the user's authentication and terminating their active session.
+
+                - Additionally, it ensures that any access token cookies associated with the user's session are removed from the client's browser, effectively logging them out from the application.
+            operationId: logoutUser
+            responses:
+                "200":
+                    description: Logout user
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "71"
+                        Date:
+                            schema:
+                                type: string
+                                example: Sun, 04 Jun 2023 14:53:17 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"47-As20QlSbGGTq515zdhzWHPjwWhg"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >-
+                                    refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;
+                                    HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties: {}
+                                    message:
+                                        type: string
+                                        example: User logged out
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                Logout user:
+                                    value:
+                                        data: {}
+                                        message: User logged out
+                                        statusCode: 200
+                                        success: true
+    /users/me:
+        get:
+            tags:
+                - 👤 User APIs
+            summary: Get logged in user
+            description: >
+                Retrieve the details of the currently logged-in user based on their authentication token.
+            operationId: getLoggedInUser
+            responses:
+                "200":
+                    description: User profile fetched
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "443"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 30 Jun 2024 06:44:47 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"1bb-YVaffq7t8o3of0yDl9g26tprr/8"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        RateLimit-Limit:
+                            schema:
+                                type: string
+                                example: "500"
+                        RateLimit-Remaining:
+                            schema:
+                                type: string
+                                example: "493"
+                        RateLimit-Reset:
+                            schema:
+                                type: string
+                                example: "631"
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            __v:
+                                                type: number
+                                                example: 0
+                                            _id:
+                                                type: string
+                                                example: 649e795264e7dba29b726936
+                                            avatar:
+                                                type: object
+                                                properties:
+                                                    public_id:
+                                                        type: string
+                                                        example: 649e795264e7dba29b726935
+                                                    url:
+                                                        type: string
+                                                        example: https://via.placeholder.com/200x200.png
+                                            name:
+                                                type: string
+                                                example: doejohn12
+                                            username:
+                                                type: string
+                                                example: doejohn
+                                            bio:
+                                                type: string
+                                                example: I am developer
+                                            createdAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.163Z"
+                                            updatedAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.247Z"
+                                    message:
+                                        type: string
+                                        example: User profile fetched
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                GetLoggedInUserResponse:
+                                    value:
+                                        data:
+                                            __v: 0
+                                            _id: 649e795264e7dba29b726936
+                                            avatar:
+                                                public_id: 649e795264e7dba29b726935
+                                                url: https://via.placeholder.com/200x200.png
+                                            name: doejohn12
+                                            username: doejohn
+                                            bio: I am developer
+                                            createdAt: "2024-05-30T06:42:26.163Z"
+                                            updatedAt: "2024-05-30T06:42:26.247Z"
+                                        message: User profile fetched
+                                        statusCode: 200
+                                        success: true
+    /user/search:
+        get:
+            tags:
+                - 👤 User APIs
+            summary: Search user
+            description: >
+                Searches for users based on the provided name query.
+            operationId: searchUser
+            parameters:
+                - in: query
+                  name: name
+                  description: Search term
+            responses:
+                "200":
+                    description: User search successful
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "443"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 30 Jun 2024 06:44:47 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"1bb-YVaffq7t8o3of0yDl9g26tprr/8"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        RateLimit-Limit:
+                            schema:
+                                type: string
+                                example: "500"
+                        RateLimit-Remaining:
+                            schema:
+                                type: string
+                                example: "493"
+                        RateLimit-Reset:
+                            schema:
+                                type: string
+                                example: "631"
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            __v:
+                                                type: number
+                                                example: 0
+                                            _id:
+                                                type: string
+                                                example: 649e795264e7dba29b726936
+                                            avatar:
+                                                type: string
+                                                example: https://via.placeholder.com/200x200.png
+                                            name:
+                                                type: string
+                                                example: doejohn12
+                                            createdAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.163Z"
+                                            updatedAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.247Z"
+                                    message:
+                                        type: string
+                                        example: User search successful
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                searchUserResponse:
+                                    value:
+                                        data:
+                                            __v: 0
+                                            _id: 649e795264e7dba29b726936
+                                            avatar: https://via.placeholder.com/200x200.png
+                                            name: doejohn12
+                                            createdAt: "2024-05-30T06:42:26.163Z"
+                                            updatedAt: "2024-05-30T06:42:26.247Z"
+                                        message: User search successful
+                                        statusCode: 200
+                                        success: true
+    /user/notifications:
+        get:
+            tags:
+                - 👤 User APIs
+            summary: Get notifications
+            description: >
+                Retrieves notifications for the logged-in user.
+            operationId: getUserNotifications
+            responses:
+                "200":
+                    description: Notifications fetched
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "443"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 30 Jun 2024 06:44:47 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"1bb-YVaffq7t8o3of0yDl9g26tprr/8"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        RateLimit-Limit:
+                            schema:
+                                type: string
+                                example: "500"
+                        RateLimit-Remaining:
+                            schema:
+                                type: string
+                                example: "493"
+                        RateLimit-Reset:
+                            schema:
+                                type: string
+                                example: "631"
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            __v:
+                                                type: number
+                                                example: 0
+                                            _id:
+                                                type: string
+                                                example: 649e795264e7dba29b726936
+                                            avatar:
+                                                type: object
+                                                properties:
+                                                    _id:
+                                                        type: string
+                                                        example: 649e795264e7dba29b726935
+                                                    name:
+                                                        type: string
+                                                        example: doejohn12
+                                                    avatar:
+                                                        type: string
+                                                        example: https://via.placeholder.com/200x200.png
+                                            createdAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.163Z"
+                                            updatedAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.247Z"
+                                    message:
+                                        type: string
+                                        example: Notifications fetched
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                getUserNotificationResponse:
+                                    value:
+                                        data:
+                                            __v:
+                                                type: number
+                                                example: 0
+                                            _id:
+                                                type: string
+                                                example: 649e795264e7dba29b726936
+                                            avatar:
+                                                type: object
+                                                properties:
+                                                    _id:
+                                                        type: string
+                                                        example: 649e795264e7dba29b726935
+                                                    name:
+                                                        type: string
+                                                        example: doejohn12
+                                                    avatar:
+                                                        type: string
+                                                        example: https://via.placeholder.com/200x200.png
+                                            createdAt:
+                                        message: Notifications fetched
+                                        statusCode: 200
+                                        success: true
+    /user/friends:
+        get:
+            tags:
+                - 👤 User APIs
+            summary: Get my friends
+            description: >
+                Retrieves friends of the logged-in user.
+            operationId: getUserFriends
+            parameters:
+                - in: query
+                  name: chatId
+                  description: chatId
+            responses:
+                "200":
+                    description: Friends fetched
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "443"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 30 Jun 2024 06:44:47 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"1bb-YVaffq7t8o3of0yDl9g26tprr/8"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        RateLimit-Limit:
+                            schema:
+                                type: string
+                                example: "500"
+                        RateLimit-Remaining:
+                            schema:
+                                type: string
+                                example: "493"
+                        RateLimit-Reset:
+                            schema:
+                                type: string
+                                example: "631"
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            __v:
+                                                type: number
+                                                example: 0
+                                            _id:
+                                                type: string
+                                                example: 649e795264e7dba29b726936
+                                            avatar:
+                                                type: string
+                                                example: https://via.placeholder.com/200x200.png
+                                            name:
+                                                type: string
+                                                example: doejohn12
+                                            createdAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.163Z"
+                                            updatedAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.247Z"
+                                    message:
+                                        type: string
+                                        example: Friends fetched
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                getUserNotificationResponse:
+                                    value:
+                                        data:
+                                            __v:
+                                                type: number
+                                                example: 0
+                                            _id:
+                                                type: string
+                                                example: 649e795264e7dba29b726936
+                                            avatar:
+                                                type: string
+                                                example: https://via.placeholder.com/200x200.png
+                                            name:
+                                                type: string
+                                                example: doejohn12
+                                            createdAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.163Z"
+                                            updatedAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.247Z"
+                                        message: Friends fetched
+                                        statusCode: 200
+                                        success: true
+    /user/sendrequest:
+        put:
+            tags:
+                - 👤 User APIs
+            summary: Send friend request
+            description: >
+                Sends a friend request to a user.
+            operationId: sendFriendRequest
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                userId:
+                                    type: string
+                                    example: 649e795264e7dba29b726936
+                        example:
+                            userId: 649e795264e7dba29b726936
+            responses:
+                "200":
+                    description: Friend Request Sent
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "443"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 30 Jun 2024 06:44:47 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"1bb-YVaffq7t8o3of0yDl9g26tprr/8"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        RateLimit-Limit:
+                            schema:
+                                type: string
+                                example: "500"
+                        RateLimit-Remaining:
+                            schema:
+                                type: string
+                                example: "493"
+                        RateLimit-Reset:
+                            schema:
+                                type: string
+                                example: "631"
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                    message:
+                                        type: string
+                                        example: Friend Request Sent
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                sendFriendResponse:
+                                    value:
+                                        data: {}
+                                        message: Friend Request Sent
+                                        statusCode: 200
+                                        success: true
+    /user/acceptrequest:
+        put:
+            tags:
+                - 👤 User APIs
+            summary: Accept friend request
+            description: >
+                Accepts or rejects a friend request.
+            operationId: acceptFriendRequest
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                requestId:
+                                    type: string
+                                    example: 649e795264e7dba29b726936
+                                accept:
+                                    type: string
+                                    example: accepted
+                        example:
+                            requestId: 649e795264e7dba29b726936
+                            accept: accepted
+
+            responses:
+                "200":
+                    description: Friend Request Accepted
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                            example: "true"
+                    Access-Control-Allow-Origin:
+                        schema:
+                            type: string
+                            example: "*"
+                    Connection:
+                        schema:
+                            type: string
+                            example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "443"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 30 Jun 2024 06:44:47 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"1bb-YVaffq7t8o3of0yDl9g26tprr/8"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        RateLimit-Limit:
+                            schema:
+                                type: string
+                                example: "500"
+                        RateLimit-Remaining:
+                            schema:
+                                type: string
+                                example: "493"
+                        RateLimit-Reset:
+                            schema:
+                                type: string
+                                example: "631"
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                    message:
+                                        type: string
+                                        example: Friend Request Accepted
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                sendFriendResponse:
+                                    value:
+                                        data: {}
+                                        message: Friend Request Accepted
+                                        statusCode: 200
+                                        success: true
+
+    /admin/verify:
+        post:
+            tags:
+                - 📊 Admin APIs
+            summary: Login admin
+            description: >
+                Authenticates the admin using a secret key and generates an authentication token.
+            operationId: loginAdmin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                secretKey:
+                                    type: string
+                                    example: doejohn
+                        example:
+                            secretKey: admin
+            responses:
+                "200":
+                    description: Login admin
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "926"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 30 Jun 2024 06:44:29 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"39e-a7Fdn0Th2/i/29/rw1he3r/pebo"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        RateLimit-Limit:
+                            schema:
+                                type: string
+                                example: "500"
+                        RateLimit-Remaining:
+                            schema:
+                                type: string
+                                example: "494"
+                        RateLimit-Reset:
+                            schema:
+                                type: string
+                                example: "648"
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >
+                                    chatzo-admin-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJpYXQiOjE2ODgxMDc0NjksImV4cCI6MTY4ODk3MTQ2OX0.7or55Coj0K_UY4YpzYzkNR9hcOIhusxk9FRz7eMV8Ho;
+                                    Path=/; HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                    message:
+                                        type: string
+                                        example: Authenticated Successfully, Welcome back
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                                examples:
+                                    Login admin:
+                                        value:
+                                            data:
+                                                type: object
+                                            message: Authenticated Successfully, Welcome back
+                                            statusCode: 200
+                                            success: true
+    /admin/logout:
+        get:
+            tags:
+                - 📊 Admin APIs
+            summary: Logout admin
+            description: >
+                The API endpoint is responsible for logging out admin from the application and destroying the access token cookies stored on the client-side.
+
+                When accessing this endpoint, it triggers the logout process, revoking the user's authentication and terminating their active session.
+
+                Additionally, it ensures that any access token cookies associated with the user's session are removed from the client's browser, effectively logging them out from the application.
+            operationId: logoutAdmin
+            responses:
+                "200":
+                    description: Logout admin
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "71"
+                        Date:
+                            schema:
+                                type: string
+                                example: Sun, 04 Jun 2023 14:53:17 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"47-As20QlSbGGTq515zdhzWHPjwWhg"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >-
+                                    refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;
+                                    HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties: {}
+                                    message:
+                                        type: string
+                                        example: Logged Out Successfully
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                Logout user:
+                                    value:
+                                        data: {}
+                                        message: Logged Out Successfully
+                                        statusCode: 200
+                                        success: true
+    /admin/:
+        get:
+            tags:
+                - 📊 Admin APIs
+            summary: Get admin
+            description: >
+                Retrieves admin data and confirms successful retrieval.
+            operationId: GetAdmin
+            responses:
+                "200":
+                    description: Successful
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "71"
+                        Date:
+                            schema:
+                                type: string
+                                example: Sun, 04 Jun 2023 14:53:17 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"47-As20QlSbGGTq515zdhzWHPjwWhg"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >-
+                                    refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;
+                                    HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            admin:
+                                                type: boolean
+                                                example: true
+
+                                    message:
+                                        type: string
+                                        example: Logged Out Successfully
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                Logout user:
+                                    value:
+                                        data: { admin: true }
+                                        message: Successful
+                                        statusCode: 200
+                                        success: true
+    /admin/stats:
+        get:
+            tags:
+                - 📊 Admin APIs
+            summary: Admin get stats
+            description: >
+                Retrieves statistics for the dashboard and returns them in the response.
+            operationId: AdminGetStats
+            responses:
+                "200":
+                    description: Dashboard statistics fetched successfully
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "71"
+                        Date:
+                            schema:
+                                type: string
+                                example: Sun, 04 Jun 2023 14:53:17 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"47-As20QlSbGGTq515zdhzWHPjwWhg"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >-
+                                    refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;
+                                    HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            stats:
+                                                type: object
+                                                properties:
+                                                    groupsCount:
+                                                        type: number
+                                                        example: 20
+                                                    usersCount:
+                                                        type: number
+                                                        example: 20
+                                                    messagesCount:
+                                                        type: number
+                                                        example: 20
+                                                    totalChatsCount:
+                                                        type: number
+                                                        example: 20
+                                                    messagesChart:
+                                                        type: array
+                                                        example: []
+                                    message:
+                                        type: string
+                                        example: Dashboard statistics fetched successfully
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                Logout user:
+                                    value:
+                                        data:
+                                            stats:
+                                                type: object
+                                                properties:
+                                                    groupsCount:
+                                                        type: number
+                                                        example: 20
+                                                    usersCount:
+                                                        type: number
+                                                        example: 20
+                                                    messagesCount:
+                                                        type: number
+                                                        example: 20
+                                                    totalChatsCount:
+                                                        type: number
+                                                        example: 20
+                                                    messagesChart:
+                                                        type: array
+                                                        example: []
+                                        message: Dashboard statistics fetched successfully
+                                        statusCode: 200
+                                        success: true
+    /admin/users:
+        get:
+            tags:
+                - 📊 Admin APIs
+            summary: Admin get users
+            description: >
+                Retrieves all users along with their statistics and returns them in the response.
+            operationId: GetAdminUsers
+            responses:
+                "200":
+                    description: Users fetched successfully
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "71"
+                        Date:
+                            schema:
+                                type: string
+                                example: Sun, 04 Jun 2023 14:53:17 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"47-As20QlSbGGTq515zdhzWHPjwWhg"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >-
+                                    refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;
+                                    HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            _id:
+                                                type: string
+                                                example: 649e795264e7dba29b726936
+                                            avatar:
+                                                type: string
+                                                example: https://via.placeholder.com/200x200.png
+                                            name:
+                                                type: string
+                                                example: doejohn12
+                                            username:
+                                                type: string
+                                                example: doejohn
+                                            groups:
+                                                type: number
+                                                example: 5
+                                            friends:
+                                                type: number
+                                                example: 100
+                                            createdAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.163Z"
+                                            updatedAt:
+                                                type: string
+                                                example: "2024-05-30T06:42:26.247Z"
+                                    message:
+                                        type: string
+                                        example: User profile fetched
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                GetLoggedInUserResponse:
+                                    value:
+                                        data:
+                                            __v: 0
+                                            _id: 649e795264e7dba29b726936
+                                            avatar: https://via.placeholder.com/200x200.png
+                                            name: doejohn12
+                                            username: doejohn
+                                            groups: 5
+                                            friends: 100
+                                            createdAt: "2024-05-30T06:42:26.163Z"
+                                            updatedAt: "2024-05-30T06:42:26.247Z"
+                                        message: User profile fetched
+                                        statusCode: 200
+                                        success: true
+    /admin/chats:
+        get:
+            tags:
+                - 📊 Admin APIs
+            summary: Admin get chats
+            description: >
+                Retrieves all chats along with their details and returns them in the response.
+            operationId: GetAdminChats
+            responses:
+                "200":
+                    description: "Chats fetched successfully"
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "71"
+                        Date:
+                            schema:
+                                type: string
+                                example: Sun, 04 Jun 2023 14:53:17 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"47-As20QlSbGGTq515zdhzWHPjwWhg"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >
+                                    refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;
+                                    HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            transformedChats:
+                                                type: array
+                                                items:
+                                                    type: object
+                                                    properties:
+                                                        _id:
+                                                            type: string
+                                                            example: 649e795264e7dba29b726936
+                                                        groupChat:
+                                                            type: boolean
+                                                            example: false
+                                                        name:
+                                                            type: string
+                                                            example: doejohn12
+                                                        avatar:
+                                                            type: array
+                                                            items:
+                                                                type: string
+                                                                example: "https://via.placeholder.com/200x200.png"
+                                                        members:
+                                                            type: array
+                                                            items:
+                                                                type: object
+                                                                properties:
+                                                                    _id:
+                                                                        type: string
+                                                                        example: 649e795264e7dba29b726936
+                                                                    name:
+                                                                        type: string
+                                                                        example: doejohn12
+                                                                    avatar:
+                                                                        type: string
+                                                                        example: "https://via.placeholder.com/200x200.png"
+                                    message:
+                                        type: string
+                                        example: "Chats fetched successfully"
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                GetAdminChatsResponse:
+                                    value:
+                                        data:
+                                            _id: 649e795264e7dba29b726936
+                                            avatar:
+                                                - "https://via.placeholder.com/200x200.png"
+                                            name: doejohn12
+                                            groupChat: false
+                                            members:
+                                                - _id: "649e795264e7dba29b726936"
+                                                  name: "doejohn12"
+                                                  avatar: "https://via.placeholder.com/200x200.png"
+                                            friends: 100
+                                            createdAt: "2024-05-30T06:42:26.163Z"
+                                            updatedAt: "2024-05-30T06:42:26.247Z"
+                                        message: "Chats fetched successfully"
+                                        statusCode: 200
+                                        success: true
+
+    /chat/new:
+        post:
+            tags:
+                - 🗨️ Chat APIs
+            summary: Create a new chat
+            description: >
+                - Creates a new group chat with the specified name and members.
+                - Adds the current user to the list of members and emits events to notify users.
+                - Emits an ALERT event to all members welcoming them to the group chat.
+                - Emits a REFETCH_CHATS event to specified members to refresh their chat list.
+            operationId: newGroupChat
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                    example: doejohn
+                                members:
+                                    type: array
+                                    example:
+                                        [
+                                            649e795264e7dba29b726986,
+                                            649e795264e7dba29b726936,
+                                            649e795264e7dba29b726936,
+                                        ]
+                        example:
+                            name: friendzo
+                            members:
+                                [
+                                    649e795264e7dba29b726836,
+                                    649e795264e7dba29b726936,
+                                    649e795264e7dba29b726936,
+                                ]
+            responses:
+                "200":
+                    description: Create Group
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "926"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 30 Jun 2024 06:44:29 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"39e-a7Fdn0Th2/i/29/rw1he3r/pebo"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        RateLimit-Limit:
+                            schema:
+                                type: string
+                                example: "500"
+                        RateLimit-Remaining:
+                            schema:
+                                type: string
+                                example: "494"
+                        RateLimit-Reset:
+                            schema:
+                                type: string
+                                example: "648"
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >
+                                    chatzo-access-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJpYXQiOjE2ODgxMDc0NjksImV4cCI6MTY4ODk3MTQ2OX0.7or55Coj0K_UY4YpzYzkNR9hcOIhusxk9FRz7eMV8Ho;
+                                    chatzo-refresh-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDllNzk1MjY0ZTdkYmEyOWI3MjY5MzYiLCJpYXQiOjE2ODgxMDc0NjksImV4cCI6MTY4ODk3MTQ2OX0.7or55Coj0K_UY4YpzYzkNR9hcOIhusxk9FRz7eMV8Ho;
+                                    Path=/; HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                    message:
+                                        type: string
+                                        example: Group Created
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                                examples:
+                                    Login user:
+                                        value:
+                                            data:
+                                                type: object
+                                            message: Group Created
+                                            statusCode: 200
+                                            success: true
+    /chat/my:
+        get:
+            tags:
+                - 🗨️ Chat APIs
+            summary: Get my chats
+            description: >
+                Retrieves chats where the current user is a member and transforms them for display.
+            responses:
+                "200":
+                    description: "Chats fetched successfully"
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "71"
+                        Date:
+                            schema:
+                                type: string
+                                example: Sun, 04 Jun 2023 14:53:17 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"47-As20QlSbGGTq515zdhzWHPjwWhg"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >
+                                    refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;
+                                    HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            transformedChats:
+                                                type: array
+                                                items:
+                                                    type: object
+                                                    properties:
+                                                        _id:
+                                                            type: string
+                                                            example: 649e795264e7dba29b726936
+                                                        groupChat:
+                                                            type: boolean
+                                                            example: false
+                                                        name:
+                                                            type: string
+                                                            example: doejohn12
+                                                        avatar:
+                                                            type: array
+                                                            items:
+                                                                type: string
+                                                                example: "https://via.placeholder.com/200x200.png"
+                                                        members:
+                                                            type: array
+                                                            items:
+                                                                type: object
+                                                                properties:
+                                                                    _id:
+                                                                        type: string
+                                                                        example: 649e795264e7dba29b726936
+                                                                    name:
+                                                                        type: string
+                                                                        example: doejohn12
+                                                                    avatar:
+                                                                        type: string
+                                                                        example: "https://via.placeholder.com/200x200.png"
+                                    message:
+                                        type: string
+                                        example: "Chats retrieved successfully"
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                GetMyChatsResponse:
+                                    value:
+                                        data:
+                                            _id: 649e795264e7dba29b726936
+                                            avatar:
+                                                - "https://via.placeholder.com/200x200.png"
+                                            name: doejohn12
+                                            groupChat: false
+                                            members:
+                                                - _id: "649e795264e7dba29b726936"
+                                                  name: "doejohn12"
+                                                  avatar: "https://via.placeholder.com/200x200.png"
+                                            friends: 100
+                                            createdAt: "2024-05-30T06:42:26.163Z"
+                                            updatedAt: "2024-05-30T06:42:26.247Z"
+                                        message: "Chats retrieved successfully"
+                                        statusCode: 200
+                                        success: true
+    /chat/groups:
+        get:
+            tags:
+                - 🗨️ Chat APIs
+            summary: Get my groups
+            description: >
+                Retrieves groups created by the current user.
+            responses:
+                "200":
+                    description: "Groups retrieved successfully"
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "71"
+                        Date:
+                            schema:
+                                type: string
+                                example: Sun, 04 Jun 2023 14:53:17 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"47-As20QlSbGGTq515zdhzWHPjwWhg"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >
+                                    refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;
+                                    HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            transformedChats:
+                                                type: array
+                                                items:
+                                                    type: object
+                                                    properties:
+                                                        _id:
+                                                            type: string
+                                                            example: 649e795264e7dba29b726936
+                                                        groupChat:
+                                                            type: boolean
+                                                            example: false
+                                                        name:
+                                                            type: string
+                                                            example: doejohn12
+                                                        avatar:
+                                                            type: array
+                                                            items:
+                                                                avatar:
+                                                                    type: string
+                                                                    example: "https://via.placeholder.com/200x200.png"
+                                    message:
+                                        type: string
+                                        example: "Groups retrieved successfully"
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                GetMyGroupsResponse:
+                                    value:
+                                        data:
+                                            _id: 649e795264e7dba29b726936
+                                            name: doejohn12
+                                            groupChat: false
+                                            avatar:
+                                                [
+                                                    "https://via.placeholder.com/200x200.png",
+                                                    "https://via.placeholder.com/200x200.png",
+                                                    "https://via.placeholder.com/200x200.png",
+                                                ]
+                                            createdAt: "2024-05-30T06:42:26.163Z"
+                                            updatedAt: "2024-05-30T06:42:26.247Z"
+                                        message: "Chats retrieved successfully"
+                                        statusCode: 200
+                                        success: true
+    /chat/messages/{id}:
+        get:
+            tags:
+                - 🗨️ Chat APIs
+            summary: Get messages by chat id
+            description: >
+                Retrieves messages from a chat by ID.
+            parameters:
+                - in: path
+                  name: id
+                  description: chatId
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: "Messages retrieved successfully"
+                    headers:
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: string
+                                example: "true"
+                        Access-Control-Allow-Origin:
+                            schema:
+                                type: string
+                                example: "*"
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Content-Length:
+                            schema:
+                                type: string
+                                example: "71"
+                        Date:
+                            schema:
+                                type: string
+                                example: Sun, 04 Jun 2023 14:53:17 GMT
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"47-As20QlSbGGTq515zdhzWHPjwWhg"
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                        Set-Cookie:
+                            schema:
+                                type: string
+                                example: >
+                                    refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;
+                                    HttpOnly
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            messages:
+                                                type: array
+                                                items:
+                                                    type: object
+                                                    properties:
+                                                        attachments:
+                                                            type: array
+                                                            items:
+                                                                type: object
+                                                                properties:
+                                                                    public_id:
+                                                                    type: string
+                                                                    url:
+                                                                        type: string
+                                                        sender:
+                                                            type: object
+                                                        chat:
+                                                            type: array
+                                                            example: []
+                                    message:
+                                        type: string
+                                        example: "Groups retrieved successfully"
+                                    statusCode:
+                                        type: number
+                                        example: 200
+                                    success:
+                                        type: boolean
+                                        example: true
+                            examples:
+                                GetMyGroupsResponse:
+                                    value:
+                                        data:
+                                            attachments:
+                                                type: array
+                                                items:
+                                                    type: object
+                                                    properties:
+                                                        public_id: 151
+                                                        url: https://via.placeholder.com/200x200.png
+                                            sender: {}
+                                            chat: []
+                                        message: "Messages retrieved successfully"
+                                        statusCode: 200
+                                        success: true
+    /chat/{id}:
+      get:
+        tags:
+          - 🗨️ Chat APIs
+        summary: Get chat details
+        description: >
+          Retrieves details of a chat by ID.
+        parameters:
+          - in: path
+            name: id
+            description: chatId
+            required: true
+            type: string
+        responses:
+          "200":
+            description: "Chat details retrieved successfully"
+            headers:
+              Access-Control-Allow-Credentials:
+                schema:
+                  type: string
+                  example: "true"
+              Access-Control-Allow-Origin:
+                schema:
+                  type: string
+                  example: "*"
+              Connection:
+                schema:
+                  type: string
+                  example: keep-alive
+              Content-Length:
+                schema:
+                  type: string
+                  example: "71"
+              Date:
+                schema:
+                  type: string
+                  example: Sun, 04 Jun 2023 14:53:17 GMT
+              ETag:
+                schema:
+                  type: string
+                  example: W/"47-As20QlSbGGTq515zdhzWHPjwWhg"
+              Keep-Alive:
+                schema:
+                  type: string
+                  example: timeout=5
+              Set-Cookie:
+                schema:
+                  type: string
+                  example: >
+                    refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;
+                    HttpOnly
+              X-Powered-By:
+                schema:
+                  type: string
+                  example: Express
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        chat:
+                          type: object
+                          properties:
+                            _id: 
+                              type: string
+                              example: 649e795264e7dba29b726936
+                            name: 
+                              type: string
+                              example: jonedoe
+                            avatar: 
+                              type: string
+                              example: https://via.placeholder.com/200x200.png
+                    message:
+                      type: string
+                      example: "Chat details retrieved successfully"
+                    statusCode:
+                      type: number
+                      example: 200
+                    success:
+                      type: boolean
+                      example: true
+                examples:
+                  GetMyGroupsResponse:
+                    value:
+                      data:
+                        _id: 649e795264e7dba29b726936
+                        name: jonedoe
+                        avatar: https://via.placeholder.com/200x200.png
+                      message: "Chat details retrieved successfully"
+                      statusCode: 200
+                      success: true
+
+    tags:
+        - name: 👤 User APIs
+          description:
+              This section contains a collection of user APIs, offering various
+              functionalities.
+        - name: 🗨️ Chat APIs
+          description: This section is a collection of essential backend development APIs.
+        - name: 📊 Admin APIs
+          description: This section encompasses all the APIs related to user authentication.
