@@ -1,8 +1,14 @@
-![Chatzo](/client/public/Chatzo_BE.png)
+<div align="center">
+   <a href="https://api-chatzo.onrender.com/api/v1/docs/" target="_blank">
+      <img src="../client/public/Chatzo_BE.png" alt="logo">
+    </a>
+</div>
 
 ### [🏠 Home](../README.md)
 
 ### [💻 Frontend Setup](../client/README.md)
+
+## Introduction
 
 Our Chat App backend, powered by Node.js with Express, Mongoose, Socket.io, Cloudinary, and Express Validator, ensures real-time communication, efficient data management, and secure file uploads. Leveraging these technologies, we've built a scalable and robust backend system for seamless chat functionality.
 

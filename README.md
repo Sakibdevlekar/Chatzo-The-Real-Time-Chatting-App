@@ -1,6 +1,8 @@
-![Chatzo](client/public/Chatzo.png)
-
-
+<div align="center">
+   <a href="chatzo-live.vercel.app" target="_blank">
+      <img src="client/public/Chatzo.png" alt="Project logo">
+    </a>
+</div>
 
 ## Introduction 🌟
 
