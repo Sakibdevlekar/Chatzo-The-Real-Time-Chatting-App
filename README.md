@@ -10,13 +10,13 @@ The Chatzo is a real-time communication platform designed to facilitate seamless
 
 ## Table of Contents 📋
 
-1. [Introduction](#introduction)
-2. [Features](#features)
-3. [Technologies Used](#technologies-used)
-4. [Project Setup](#project-setup)
-5. [Contributing](#contributing)
-6. [Troubleshooting](#troubleshooting)
-7. [Deployment](#deployment)
+1. [Introduction](#introduction-🌟)
+2. [Features](#features-🌈)
+3. [Technologies Used](#technologies-used-💻)
+4. [Project Setup](#project-setup-🛠️)
+5. [Contributing](#contributing-🌱)
+6. [Troubleshooting](#troubleshooting-🛠️)
+7. [Deployment](#deployment-🚀)
 
 ## Features 🌈
 
